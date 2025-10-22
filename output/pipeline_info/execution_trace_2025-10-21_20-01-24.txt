@@ -1,0 +1,4 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+1	62/fd60ef	39807	DISCOVER_SAMPLES (Discovering samples)	COMPLETED	0	2025-10-21 20:01:27.349	142ms	0ms	-	-	-	-	-
+4	c0/5c6e78	39829	MASH_SPECIES_IDENTIFICATION:MASH_SPECIES_ID (GCWGS-3958)	ABORTED	-	2025-10-21 20:01:27.535	-	-	-	-	-	-	-
+3	31/5fed14	39830	MASH_SPECIES_IDENTIFICATION:MASH_SPECIES_ID (GCWGS-2494)	ABORTED	-	2025-10-21 20:01:27.539	-	-	-	-	-	-	-
