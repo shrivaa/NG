@@ -1,8 +1,0 @@
-Sample	Gene	Present	Average_Depth	Status
-GCWGS-2193	blaTEM	False	0.00	Not_detected
-GCWGS-2193	tetM	True	149.41	Detected
-GCWGS-2193	ermB	False	0.00	Not_detected
-GCWGS-2193	ermC	True	54.42	Detected
-GCWGS-2193	ermF	False	0.00	Not_detected
-GCWGS-2193	mefA	False	0.00	Not_detected
-GCWGS-2193	Nm_sodC	True	79.76	Detected
