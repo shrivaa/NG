@@ -1,0 +1,8 @@
+Sample	Gene	Present	Average_Depth	Status
+GCWGS-3958	blaTEM	False	0.00	Not_detected
+GCWGS-3958	tetM	True	298.63	Detected
+GCWGS-3958	ermB	False	0.00	Not_detected
+GCWGS-3958	ermC	True	116.01	Detected
+GCWGS-3958	ermF	False	0.00	Not_detected
+GCWGS-3958	mefA	False	0.00	Not_detected
+GCWGS-3958	Nm_sodC	True	137.09	Detected

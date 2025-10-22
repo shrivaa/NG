@@ -1,0 +1,8 @@
+Sample	Gene	Present	Average_Depth	Status
+MIL065	blaTEM	False	0.00	Not_detected
+MIL065	tetM	False	0.00	Not_detected
+MIL065	ermB	False	0.00	Not_detected
+MIL065	ermC	True	765.87	Detected
+MIL065	ermF	False	0.00	Not_detected
+MIL065	mefA	False	0.00	Not_detected
+MIL065	Nm_sodC	True	714.62	Detected
