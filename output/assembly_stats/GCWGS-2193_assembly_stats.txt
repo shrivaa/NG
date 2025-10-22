@@ -1,0 +1,13 @@
+Sample ID: GCWGS-2193
+Assembly Source: background
+Assembly File: GCWGS-2193_contigs.fasta
+Assembly Absolute Path: /Volumes/External_Disk_and_Manaul_Backups/nextflow_logs/work/b0/f9f7356b9eb44bd0c6de4aca5ddbd0/GCWGS-2193_contigs.fasta
+
+Total Length: 2,214,858 bp
+Number of Contigs: 176
+N50: 67,244 bp
+L50: 13
+Longest Contig: 152,587 bp
+Shortest Contig: 128 bp
+Mean Contig Length: 12,584.4 bp
+GC Content: 52.40%

@@ -1,0 +1,75 @@
+{
+  "sample_id": "GCWGS-2494",
+  "species_confirmed": true,
+  "top_hit": {
+    "rank": 1,
+    "identity": 1.0,
+    "shared_hashes": "1000/1000",
+    "median_multiplicity": "66",
+    "p_value": 0.0,
+    "query_id": "[94 seqs] ABUPPZ010000001.1 Neisseria gonorrhoeae strain GCWGS-11027 SAMN14127746-rid13420743.denovo.01, whole genome shotgun sequence [...]",
+    "organism": "Neisseria gonorrhoeae",
+    "is_gonorrhoeae": true,
+    "is_neisseria": true
+  },
+  "confidence": "High",
+  "all_results": [
+    {
+      "rank": 1,
+      "identity": 1.0,
+      "shared_hashes": "1000/1000",
+      "median_multiplicity": "66",
+      "p_value": 0.0,
+      "query_id": "[94 seqs] ABUPPZ010000001.1 Neisseria gonorrhoeae strain GCWGS-11027 SAMN14127746-rid13420743.denovo.01, whole genome shotgun sequence [...]",
+      "organism": "Neisseria gonorrhoeae",
+      "is_gonorrhoeae": true,
+      "is_neisseria": true
+    },
+    {
+      "rank": 2,
+      "identity": 0.920101,
+      "shared_hashes": "174/1000",
+      "median_multiplicity": "64",
+      "p_value": 0.0,
+      "query_id": "[180 seqs] CAKLRA010000001.1 Neisseria meningitidis strain NM-0534 genome assembly, contig: contig00001, whole genome shotgun sequence [...]",
+      "organism": "Neisseria species",
+      "is_gonorrhoeae": false,
+      "is_neisseria": true
+    },
+    {
+      "rank": 3,
+      "identity": 0.911545,
+      "shared_hashes": "143/1000",
+      "median_multiplicity": "72",
+      "p_value": 0.0,
+      "query_id": "[441 seqs] CBDEWX010000001.1 MAG TPA_asm: Neisseria meningitidis isolate SRR24825046_concoct_0 genome assembly, contig: ERZ25084272.2, whole genome shotgun sequence [...]",
+      "organism": "Neisseria species",
+      "is_gonorrhoeae": false,
+      "is_neisseria": true
+    },
+    {
+      "rank": 4,
+      "identity": 0.909369,
+      "shared_hashes": "136/1000",
+      "median_multiplicity": "65",
+      "p_value": 0.0,
+      "query_id": "[3 seqs] CAKLQR010000001.1 Neisseria meningitidis strain NMN-8 genome assembly, contig: contig00001, whole genome shotgun sequence [...]",
+      "organism": "Neisseria species",
+      "is_gonorrhoeae": false,
+      "is_neisseria": true
+    },
+    {
+      "rank": 5,
+      "identity": 0.873915,
+      "shared_hashes": "59/1000",
+      "median_multiplicity": "63",
+      "p_value": 4.66608e-231,
+      "query_id": "[359 seqs] CAKLQU010000001.1 Neisseria meningitidis strain NM-1495 genome assembly, contig: contig00001, whole genome shotgun sequence [...]",
+      "organism": "Neisseria species",
+      "is_gonorrhoeae": false,
+      "is_neisseria": true
+    }
+  ],
+  "analysis_status": "PASS",
+  "total_hits": 10
+}

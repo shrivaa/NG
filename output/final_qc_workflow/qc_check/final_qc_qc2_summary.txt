@@ -1,0 +1,23 @@
+QC2 Comprehensive Quality Check Summary
+=======================================
+
+QC2 Thresholds:
+  Minimum Coverage: 85%
+  Required Species: Neisseria_gonorrhoeae
+  Max Assembly Size: 2500000 bp
+  Assembly Size Range: 1850000-2100000 bp
+  Min GC Content: 0.1
+  Min Read Quality: 11 (strict: 15)
+
+Results:
+  PASS: GCWGS-2193 (Coverage=96.3%, Size=2214858, GC=52.40%, Q20=96.3%)
+  PASS: GCWGS-2494 (Coverage=94.5%, Size=2140454, GC=52.50%, Q20=95.2%)
+  PASS: GCWGS-3958 (Coverage=97.3%, Size=2216075, GC=52.33%, Q20=97.9%)
+  PASS: GCWGS-3992 (Coverage=95.3%, Size=2194843, GC=52.48%, Q20=95.2%)
+  PASS: MIL065 (Coverage=95.8%, Size=2128450, GC=52.64%, Q20=97.3%)
+
+Total Passed: 5
+Total Failed: 0
+
+Passed: 5
+Failed: 0

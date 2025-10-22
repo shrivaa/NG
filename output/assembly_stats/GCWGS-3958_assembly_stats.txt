@@ -1,0 +1,13 @@
+Sample ID: GCWGS-3958
+Assembly Source: background
+Assembly File: GCWGS-3958_contigs.fasta
+Assembly Absolute Path: /Volumes/External_Disk_and_Manaul_Backups/nextflow_logs/work/ef/ff1d7e161d354036f410a727c4e748/GCWGS-3958_contigs.fasta
+
+Total Length: 2,216,075 bp
+Number of Contigs: 169
+N50: 76,605 bp
+L50: 10
+Longest Contig: 207,854 bp
+Shortest Contig: 128 bp
+Mean Contig Length: 13,112.9 bp
+GC Content: 52.33%

@@ -1,0 +1,6 @@
+"FINAL_QC_WORKFLOW:QC_CHECK":
+    Awk: awk: unrecognized option '--version'
+    QC2_thresholds:
+        min_coverage: "85"
+        required_species: "Neisseria_gonorrhoeae"
+        max_assembly_size: "2500000"
