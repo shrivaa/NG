@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module Reference - Pipeline Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .back-link { color: white; text-decoration: none; opacity: 0.9; display: inline-block; margin-bottom: 1rem; }
+        .back-link:hover { opacity: 1; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .category-nav {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 120px;
+        }
+        
+        .category-nav h2 { color: #667eea; margin-bottom: 1rem; font-size: 1.3rem; }
+        .category-nav ul { list-style: none; columns: 3; column-gap: 2rem; }
+        .category-nav li { padding: 0.4rem 0; break-inside: avoid; }
+        .category-nav a { color: #333; text-decoration: none; transition: color 0.2s; }
+        .category-nav a:hover { color: #667eea; }
+        
+        .category-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .category-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .category-header h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+        }
+        
+        .module-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .module-header h3 {
+            color: #764ba2;
+            font-size: 1.3rem;
+        }
+        
+        .module-tag {
+            background: #667eea;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .module-section {
+            margin: 1rem 0;
+        }
+        
+        .module-section h4 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .io-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .input-box, .output-box {
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .input-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .output-box {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+        }
+        
+        .io-grid h5 {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .io-grid ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .io-grid li {
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .container-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+        
+        .param-list {
+            background: #fff3e0;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .param-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .param-list li {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #ffe0b2;
+        }
+        
+        .param-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .note-box {
+            background: #e8eaf6;
+            border-left: 4px solid #3f51b5;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .note-box strong {
+            color: #3f51b5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Overview</a>
+            <h1>📖 Module Reference</h1>
+            <p>Complete documentation of all pipeline processes with parameters and containers</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="category-nav">
+            <h2>Quick Navigation</h2>
+            <ul>
+                <li><a href="#sample-qc">Sample Discovery & QC</a></li>
+                <li><a href="#reads-qc">Reads Quality Control</a></li>
+                <li><a href="#assembly">Assembly</a></li>
+                <li><a href="#assembly-qc">Assembly QC</a></li>
+                <li><a href="#downsampling">Downsampling</a></li>
+                <li><a href="#variant-calling">Variant Calling</a></li>
+                <li><a href="#mlst">MLST Analysis</a></li>
+                <li><a href="#amr-typing">AMR Typing</a></li>
+                <li><a href="#amr-chromosomal">AMR Chromosomal</a></li>
+                <li><a href="#amr-hgt">AMR HGT</a></li>
+                <li><a href="#clinical">Clinical Interpretation</a></li>
+                <li><a href="#phylogeny">Phylogenetic Analysis</a></li>
+                <li><a href="#outbreak">Outbreak Detection</a></li>
+                <li><a href="#recombination">Recombination</a></li>
+                <li><a href="#reporting">Reporting</a></li>
+            </ul>
+        </div>
+        
+        <!-- SAMPLE DISCOVERY & QC -->
+        <div class="category-section" id="sample-qc">
+            <div class="category-header">
+                <h2>📂 Sample Discovery & QC</h2>
+                <p>Identify and catalog input samples with species verification</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>DISCOVER_SAMPLES</h3>
+                    <span class="module-tag">Core Module</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Scan directories for paired-end FASTQ files and generate sample metadata catalog</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Recursively searches background and live sample directories for FASTQ files (R1/R2 pairs). 
+                    Creates a comprehensive manifest tracking sample IDs, file paths, and sample types (background vs. live).
+                    This is the entry point for all samples into the pipeline.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><code>--background_dir</code>: Background genome directory</li>
+                            <li><code>--live_samples_dir</code>: Live sample directory</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>samples:</strong> Channel [sample_id, R1, R2, sample_type]</li>
+                            <li><strong>metadata:</strong> TSV with sample catalog</li>
+                            <li><strong>input_manifest:</strong> JSON tracking all inputs</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+                
+                <div class="note-box">
+                    <strong>Note:</strong> Sample types are preserved throughout the pipeline. Background samples can optionally 
+                    skip species verification if <code>--trust_background</code> is enabled.
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>MASH_SPECIES_IDENTIFICATION</h3>
+                    <span class="module-tag">QC Module</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Taxonomic identification using MASH to verify <em>N. gonorrhoeae</em></p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Uses MASH screen to compare sample reads against a curated Neisseria database. Identifies species 
+                    using winner-take-all approach. Generates per-sample results and creates summary TSV with all identifications. 
+                    Species verification is critical for QC2 filtering.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>reads:</strong> [sample_id, R1, R2, sample_type]</li>
+                            <li><code>--mash_db</code>: MASH database (.msh file)</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>mash_results:</strong> Per-sample MASH output</li>
+                            <li><strong>mash_summary:</strong> Combined TSV with all species IDs</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/mash:2.3</span>
+                </div>
+                
+                <div class="param-list">
+                    <h4>Control Parameters</h4>
+                    <ul>
+                        <li><code>--skip_species_check</code>: Skip for all samples (default: false)</li>
+                        <li><code>--trust_background</code>: Skip only for background samples (default: false)</li>
+                        <li><code>--qc2_required_species</code>: Expected species for QC2 (default: Neisseria_gonorrhoeae)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- READS QC -->
+        <div class="category-section" id="reads-qc">
+            <div class="category-header">
+                <h2>✂️ Reads Quality Control (QC1)</h2>
+                <p>FastP-based quality filtering and adapter trimming</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>FASTP_QC</h3>
+                    <span class="module-tag">Core QC</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Quality filter and adapter trim raw reads using FastP</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Runs FastP on all samples with automatic adapter detection, quality filtering, and read trimming. 
+                    Generates detailed JSON reports with metrics for QC1 threshold checking. Produces trimmed FASTQ files 
+                    for downstream assembly.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>reads:</strong> [sample_id, R1, R2, sample_type]</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>trimmed_reads:</strong> [sample_id, R1_trimmed, R2_trimmed, sample_type]</li>
+                            <li><strong>fastp_json:</strong> Per-sample FastP JSON report</li>
+                            <li><strong>fastp_html:</strong> Per-sample HTML report</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">biocontainers/fastp:0.23.4</span>
+                </div>
+                
+                <div class="param-list">
+                    <h4>FastP Options</h4>
+                    <ul>
+                        <li>Automatic adapter detection enabled</li>
+                        <li>Quality filtering with default Phred ≥ 15</li>
+                        <li>Length filtering (minimum 15 bp)</li>
+                        <li>Complexity filtering enabled</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>FASTP_SUMMARY</h3>
+                    <span class="module-tag">Reporting</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Aggregate all FastP JSON reports into comprehensive summary</p>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>fastp_jsons:</strong> Collected FastP JSON files</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>summary_json:</strong> Combined metrics JSON</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>COMBINE_FASTP_REPORTS</h3>
+                    <span class="module-tag">Data Processing</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Merge FastP reports into single TSV for QC threshold checking</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Parses all FastP JSON files and extracts key QC metrics (reads before/after, bases before/after, 
+                    quality scores, adapter content). Creates unified TSV with one row per sample for downstream filtering.</p>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>FASTP_QC_CHECK</h3>
+                    <span class="module-tag">QC Decision</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Apply QC1 thresholds to determine which samples pass quality standards</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Evaluates each sample against three key thresholds: minimum reads after filtering, minimum bases 
+                    after filtering, and minimum bases before filtering. Generates two output files: QC1-passed samples 
+                    and QC1-failed samples. This checkpoint determines which samples proceed to assembly.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>fastp_report:</strong> Combined FastP TSV</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>passed:</strong> TSV of QC1-passed samples</li>
+                            <li><strong>failed:</strong> TSV of QC1-failed samples</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="param-list">
+                    <h4>QC1 Thresholds</h4>
+                    <ul>
+                        <li><code>--qc_min_reads_after</code>: Minimum reads post-filtering (default: 352,000)</li>
+                        <li><code>--qc_min_bases_after</code>: Minimum bases post-filtering (default: 88,000)</li>
+                        <li><code>--qc_min_bases_before</code>: Minimum bases pre-filtering (default: 22,418,200)</li>
+                        <li><code>--enable_qc_filtering</code>: Apply filtering (default: true)</li>
+                    </ul>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ASSEMBLY -->
+        <div class="category-section" id="assembly">
+            <div class="category-header">
+                <h2>🧬 Assembly</h2>
+                <p>Genome assembly with smart caching and statistics generation</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>SPADES_ASSEMBLY</h3>
+                    <span class="module-tag">Core Assembly</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> De novo genome assembly using SPAdes in isolate mode</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Runs SPAdes assembler in <code>--isolate</code> mode optimized for bacterial genomes. Produces contigs, 
+                    scaffolds, and assembly graph. Uses automatic k-mer selection for optimal assembly quality. Generates 
+                    comprehensive assembly statistics.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>reads:</strong> [sample_id, R1_trimmed, R2_trimmed, sample_type]</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>contigs:</strong> contigs.fasta</li>
+                            <li><strong>scaffolds:</strong> scaffolds.fasta</li>
+                            <li><strong>assembly_graph:</strong> assembly_graph.fastg</li>
+                            <li><strong>spades_log:</strong> Assembly log file</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/spades:3.15.5</span>
+                </div>
+                
+                <div class="note-box">
+                    <strong>Note:</strong> Assemblies are tagged as <code>newly_assembled</code> for tracking purposes.
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>LOAD_EXISTING_ASSEMBLIES</h3>
+                    <span class="module-tag">Cache Management</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Load pre-existing assemblies from cache directory</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Searches <code>--assemblies_dir</code> for existing assemblies in <code>{sample_id}/contigs.fasta</code> 
+                    format. Returns list of found assemblies with their paths. Used for smart assembly caching to avoid 
+                    re-assembling unchanged samples.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>sample_ids:</strong> List of samples to check</li>
+                            <li><code>--assemblies_dir</code>: Cache directory</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>existing_assemblies:</strong> [sample_id, contigs.fasta, 'loaded_from_cache']</li>
+                            <li><strong>missing_sample_ids:</strong> Samples without cached assemblies</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>SPADES_MISSING_ASSEMBLIES</h3>
+                    <span class="module-tag">Conditional Assembly</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Assemble only samples without existing cached assemblies</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Identical to SPADES_ASSEMBLY but operates only on samples that don't have valid cached assemblies. 
+                    This selective approach minimizes computational resources by reusing existing work when possible.</p>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/spades:3.15.5</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>CALCULATE_ASSEMBLY_STATS</h3>
+                    <span class="module-tag">Statistics</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Calculate assembly quality metrics (N50, L50, total length, contigs)</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Parses assembly FASTA files to compute standard assembly statistics: N50 (median contig length), 
+                    L50 (number of contigs comprising 50% of assembly), total assembly length, and total number of contigs. 
+                    These metrics are essential for QC2 filtering.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>assembly:</strong> [sample_id, contigs.fasta, source]</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>stats:</strong> TSV with N50, L50, length, num_contigs</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>COMBINE_ASSEMBLY_STATS</h3>
+                    <span class="module-tag">Aggregation</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Merge all individual assembly statistics into unified TSV</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Collects assembly statistics from all samples and creates comprehensive summary file. Includes source 
+                    tracking (loaded vs. newly assembled) and all quality metrics. Used for reporting and QC2 filtering.</p>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VARIANT CALLING -->
+        <div class="category-section" id="variant-calling">
+            <div class="category-header">
+                <h2>🧪 Variant Calling</h2>
+                <p>SNP detection with intelligent caching and recombination removal</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>CHECK_EXISTING_SNIPPY</h3>
+                    <span class="module-tag">Cache Management</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Validate existing Snippy outputs in cache and determine what needs to be re-run</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Checks cache directory for valid Snippy outputs (snps.vcf, snps.bam, snps.bam.bai). If downsampling 
+                    is enabled, reads exclusion list and marks downsampled samples as MISSING to force re-analysis. Returns 
+                    per-sample status (FOUND/MISSING) with paths to cached data when available.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>reads:</strong> [sample_id, R1, R2, sample_type]</li>
+                            <li><code>--snippy_cache_dir</code>: Cache directory</li>
+                            <li><strong>exclusion_list:</strong> Samples to exclude from cache</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>cache_result:</strong> [sample_id, R1, R2, type, status_file, dir_file]</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">ubuntu:22.04</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>SNIPPY_VARIANT_CALLING</h3>
+                    <span class="module-tag">Core Analysis</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> SNP and indel detection using Snippy</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Maps reads to reference genome using BWA, calls variants with FreeBayes, and generates comprehensive 
+                    output including VCF, BAM, consensus sequences, and summary statistics. Core genome alignment building 
+                    block for phylogenetic and outbreak analyses.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>reads:</strong> [sample_id, R1, R2, sample_type]</li>
+                            <li><strong>reference:</strong> Reference genome (FASTA/GBK)</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>snippy_dir:</strong> Complete Snippy output directory</li>
+                            <li>Contains: snps.vcf, snps.bam, snps.tab, snps.txt, etc.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/snippy:4.6.0</span>
+                </div>
+                
+                <div class="note-box">
+                    <strong>Performance:</strong> Uses <code>params.max_cpus</code> threads. Typical runtime: 5-15 minutes per sample.
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>SNIPPY_CORE</h3>
+                    <span class="module-tag">Core Analysis</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Generate core genome alignment from all Snippy outputs</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Combines SNPs from all samples into multi-sample FASTA alignment. Only includes positions present in 
+                    reference and variant in at least one sample. Logs samples that failed Snippy QC. Creates foundation 
+                    for phylogenetic tree construction.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>snippy_dirs:</strong> All Snippy output directories</li>
+                            <li><strong>reference:</strong> Reference genome</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>core_alignment:</strong> core.full.aln (FASTA)</li>
+                            <li><strong>failed_samples:</strong> Samples excluded from alignment</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/snippy:4.6.0</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>RUN_GUBBINS</h3>
+                    <span class="module-tag">Recombination Detection</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Identify and remove recombinant regions using Gubbins</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Iteratively detects recombination events in bacterial alignments. Generates recombination-free alignment 
+                    suitable for phylogenetic inference, identifies recombinant regions (GFF format), constructs initial tree, 
+                    and calculates per-branch recombination statistics. Essential for accurate phylogeny.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>alignment:</strong> Clean core alignment (FASTA)</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>phylip:</strong> Recombination-free alignment (PHYLIP)</li>
+                            <li><strong>fasta:</strong> Recombination-free alignment (FASTA)</li>
+                            <li><strong>tree:</strong> Initial phylogenetic tree</li>
+                            <li><strong>gff:</strong> Recombination regions</li>
+                            <li><strong>branch_stats:</strong> Per-branch recombination stats</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/gubbins:3.3.1</span>
+                </div>
+                
+                <div class="param-list">
+                    <h4>Gubbins Parameters</h4>
+                    <ul>
+                        <li>Default iterations: 5</li>
+                        <li>Tree builder: RAxML-NG</li>
+                        <li>Model: GTR+GAMMA</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AMR PROFILER -->
+        <div class="category-section" id="amr-chromosomal">
+            <div class="category-header">
+                <h2>💊 AMR Profiler - Chromosomal Resistance</h2>
+                <p>Detection of chromosomal resistance mutations and alleles</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>SNIPPY_CHROMOSOMAL</h3>
+                    <span class="module-tag">Variant Calling</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Call variants against chromosomal reference for resistance mutation detection</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Runs Snippy against chromosomal reference genome containing known resistance loci. Generates VCF with 
+                    all variants and BAM files with read depth information. Supports caching in <code>--amr_snippy_cache_dir</code> 
+                    for reuse across pipeline runs.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>reads:</strong> [sample_id, [R1, R2]]</li>
+                            <li><strong>reference:</strong> Chromosomal reference genome</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>vcf:</strong> snps.vcf with all variants</li>
+                            <li><strong>bam:</strong> snps.bam alignment</li>
+                            <li><strong>bai:</strong> snps.bam.bai index</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/snippy:4.6.0</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>PARSE_CHROMOSOMAL</h3>
+                    <span class="module-tag">Data Extraction</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Extract known resistance mutations from VCF using mutation database</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Parses Snippy VCF and identifies variants at known resistance-conferring positions defined in 
+                    <code>--chromosomal_mutations</code> database. Extracts mutation details including position, reference/alternate 
+                    alleles, and associated genes. Outputs TSV for further depth verification.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>vcf:</strong> Snippy VCF file</li>
+                            <li><code>--chromosomal_mutations</code>: Mutation database (TSV)</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>mutations:</strong> TSV with identified resistance mutations</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+                
+                <div class="note-box">
+                    <strong>Database Format:</strong> Chromosomal mutations TSV should contain: Position, Gene, Mutation, 
+                    Antibiotic, Resistance_Level
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>DEPTH_ANALYSIS</h3>
+                    <span class="module-tag">QC Verification</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Verify mutation depth meets quality thresholds</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Uses samtools depth to calculate read depth at each resistance mutation position. Filters mutations 
+                    below minimum depth threshold (typically ≥10x) to ensure variant calls are reliable. Critical quality 
+                    control step for clinical interpretation.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>mutations:</strong> Parsed mutations TSV</li>
+                            <li><strong>bam:</strong> Snippy BAM file</li>
+                            <li><strong>bai:</strong> BAM index</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>depth_verified:</strong> Mutations passing depth threshold</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/samtools:1.17</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>NGMASTER</h3>
+                    <span class="module-tag">Typing</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> NG-STAR typing from assembly for AMR profiling</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Performs NG-STAR (Neisseria gonorrhoeae Sequence Typing for Antimicrobial Resistance) on assembled 
+                    contigs. Identifies alleles at 7 resistance-associated loci: penA, mtrR, porB, ponA, gyrA, parC, 23S. 
+                    Assigns NG-STAR sequence type.</p>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/ngmaster:1.0.0</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>BLASTN_ALLELES</h3>
+                    <span class="module-tag">Allele Identification</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Identify resistance-associated alleles (penA, porB, mtrR) using BLAST</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>BLAST searches assembly against curated databases of penA, porB, and mtrR alleles. These genes are 
+                    major determinants of β-lactam and macrolide resistance. Identifies specific allele types (e.g., penA mosaic 
+                    patterns) that correlate with resistance phenotypes.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>assembly:</strong> [sample_id, contigs.fasta]</li>
+                            <li><code>--penA_db</code>: penA allele BLAST DB</li>
+                            <li><code>--porB_db</code>: porB allele BLAST DB</li>
+                            <li><code>--mtrR_alleles_ref</code>: mtrR reference</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>alleles:</strong> TSV with identified alleles</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">ncbi/blast:latest</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AMR HGT -->
+        <div class="category-section" id="amr-hgt">
+            <div class="category-header">
+                <h2>🧬 AMR Profiler - HGT Genes</h2>
+                <p>Detection of horizontally transferred resistance genes</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>SNIPPY_HGT</h3>
+                    <span class="module-tag">Coverage Analysis</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Map reads to HGT gene reference sequences for presence/absence detection</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Uses Snippy to map reads against reference sequences of known horizontally transferred resistance genes 
+                    (e.g., blaTEM, ermB, tetM). Unlike SNP calling, this analysis focuses on gene coverage to determine 
+                    presence/absence. Generates BAM files for depth calculation.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>reads:</strong> [sample_id, [R1, R2]]</li>
+                            <li><code>--hgt_reference</code>: HGT gene sequences (multi-FASTA)</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>bam:</strong> Read alignments to HGT genes</li>
+                            <li><strong>bai:</strong> BAM index</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/snippy:4.6.0</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>DETECT_HGT</h3>
+                    <span class="module-tag">Gene Presence Detection</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Calculate coverage for each HGT gene and determine presence/absence</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Calculates per-gene coverage statistics from BAM file. Applies coverage threshold (typically ≥90%) 
+                    to classify genes as present or absent. Generates TSV with gene name, coverage percentage, and status. 
+                    Combines with gene database to annotate antibiotics affected.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>bam:</strong> HGT alignment BAM</li>
+                            <li><strong>bai:</strong> BAM index</li>
+                            <li><code>--hgt_genes</code>: Gene annotation database (TSV)</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>hgt_presence:</strong> TSV with gene presence/coverage</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/samtools:1.17</span>
+                </div>
+                
+                <div class="note-box">
+                    <strong>Database Format:</strong> HGT genes TSV should contain: Gene_Name, Antibiotic_Class, Mechanism
+                </div>
+            </div>
+        </div>
+        
+        <!-- PHYLOGENY -->
+        <div class="category-section" id="phylogeny">
+            <div class="category-header">
+                <h2>🌳 Phylogenetic Analysis</h2>
+                <p>High-quality phylogenetic tree construction with visualization</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>PHYLO_ANALYSIS</h3>
+                    <span class="module-tag">Tree Inference</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Infer maximum likelihood phylogenetic tree using RAxML-NG</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Uses RAxML-NG to construct phylogenetic tree from Gubbins recombination-free alignment. Automatically 
+                    selects best substitution model (typically GTR+G). Performs bootstrap resampling for branch support 
+                    estimation. Generates Newick format tree suitable for visualization and interpretation.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li><strong>alignment:</strong> Gubbins PHYLIP alignment</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>tree:</strong> ML tree (Newick)</li>
+                            <li><strong>bootstrap:</strong> Bootstrap support values</li>
+                            <li><strong>log:</strong> RAxML-NG log file</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">staphb/raxml-ng:1.2.0</span>
+                </div>
+                
+                <div class="param-list">
+                    <h4>RAxML-NG Parameters</h4>
+                    <ul>
+                        <li>Bootstrap replicates: 100 (default)</li>
+                        <li>Model: Auto-detect (GTR+G typical)</li>
+                        <li>Threads: <code>params.max_cpus</code></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>TREE_VISUALIZATION</h3>
+                    <span class="module-tag">Plotting</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Generate publication-quality tree visualizations with annotations</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Creates annotated phylogenetic trees in PDF and SVG formats. Adds metadata annotations such as 
+                    MLST sequence types (if available), sample types (background vs. live), and bootstrap support values. 
+                    Uses ggtree or similar R-based visualization for professional output.</p>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">rocker/tidyverse:4.2.0</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- REPORTING -->
+        <div class="category-section" id="reporting">
+            <div class="category-header">
+                <h2>📊 Reporting</h2>
+                <p>Comprehensive manifest and report generation</p>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>GENERATE_COMPREHENSIVE_MANIFEST</h3>
+                    <span class="module-tag">Master Report</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Create unified manifest with all pipeline data</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Aggregates data from all workflow stages into comprehensive TSV manifest. Combines sample metadata, 
+                    QC metrics (QC1 and QC2), assembly statistics, MASH species IDs, MLST results, AMR profiling data, 
+                    and variant calling summaries. Provides complete pipeline audit trail.</p>
+                </div>
+                
+                <div class="io-grid">
+                    <div class="input-box">
+                        <h5>📥 Inputs</h5>
+                        <ul>
+                            <li>Sample metadata</li>
+                            <li>Assembly stats</li>
+                            <li>FastP summary</li>
+                            <li>MASH results</li>
+                            <li>MLST data</li>
+                            <li>AMR outputs</li>
+                            <li>Pipeline parameters</li>
+                        </ul>
+                    </div>
+                    <div class="output-box">
+                        <h5>📤 Outputs</h5>
+                        <ul>
+                            <li><strong>manifests:</strong> pipeline_manifest.tsv</li>
+                            <li><strong>params_json:</strong> pipeline_params.json</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+            
+            <div class="module-card">
+                <div class="module-header">
+                    <h3>GENERATE_WORKFLOW_MANIFEST</h3>
+                    <span class="module-tag">Workflow Tracking</span>
+                </div>
+                
+                <p><strong>Purpose:</strong> Generate per-workflow execution manifests</p>
+                
+                <div class="module-section">
+                    <h4>Description</h4>
+                    <p>Creates JSON manifests tracking inputs, outputs, and metadata for individual workflows 
+                    (e.g., variant_calling_input.json, variant_calling_cache_usage.json, variant_calling_output.json). 
+                    Enables detailed workflow-level audit and debugging.</p>
+                </div>
+                
+                <div class="module-section">
+                    <h4>Container</h4>
+                    <span class="container-badge">python:3.9-slim</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Summary Table -->
+        <div class="category-section">
+            <h2>📑 Module Summary</h2>
+            <p>Quick reference table of all pipeline modules</p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem;">
+                <thead style="background: #667eea; color: white;">
+                    <tr>
+                        <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Category</th>
+                        <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Module Count</th>
+                        <th style="padding: 0.75rem; text-align: left; border: 1px solid #ddd;">Key Functions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Sample Discovery & QC</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">2</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Input discovery, species verification</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Reads QC</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">4</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">FastP filtering, QC1 threshold checks</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Assembly</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">5</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">SPAdes assembly, caching, statistics</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Assembly QC</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">5</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Coverage analysis, QC2 comprehensive filtering</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Downsampling</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">3</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Read normalization, cache management</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Variant Calling</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">8</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Snippy, core alignment, Gubbins recombination</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>MLST Analysis</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">4</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Sequence typing, clustering</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>AMR Typing</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">2</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">NG-MAST, NG-STAR typing</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>AMR Chromosomal</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">7</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Mutation detection, allele identification</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>AMR HGT</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">4</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">HGT gene presence/absence detection</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Clinical Interpretation</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">4</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Treatment recommendations, priority alerts</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Phylogenetic Analysis</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">4</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">RAxML-NG trees, visualization</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Outbreak Detection</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">2</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">SNP distance clustering</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Recombination</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">2</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Functional annotation, visualization</td>
+                    </tr>
+                    <tr style="background: #f8f9fa;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;"><strong>Reporting</strong></td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">4</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">Comprehensive manifests, tracking</td>
+                    </tr>
+                    <tr style="background: #667eea; color: white; font-weight: bold;">
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">TOTAL</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">60</td>
+                        <td style="padding: 0.75rem; border: 1px solid #ddd;">modules across 15 categories</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div style="text-align: center; padding: 2rem; color: #666;">
+        <p><a href="index.html" style="color: #667eea; text-decoration: none;">← Back to Overview</a></p>
+        <p>Copyright © 2025 I Graviton, LLC</p>
+    </div>
+</body>
+</html>

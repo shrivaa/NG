@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N. gonorrhoeae Outbreak Analysis Pipeline - Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .nav-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
+        
+        .nav-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-card h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .nav-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .overview-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .overview-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        
+        .overview-section h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+        
+        .pipeline-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 1rem;
+        }
+        
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .workflow-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .workflow-item strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>🧬 N. gonorrhoeae Outbreak Analysis Pipeline</h1>
+            <p>Comprehensive Bioinformatics Pipeline for Genomic Surveillance and AMR Detection</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Quick Navigation -->
+        <div class="nav-grid">
+            <a href="process_flow.html" class="nav-card">
+                <div class="nav-card-icon">📋</div>
+                <h2>Process Flow</h2>
+                <p>Step-by-step workflow descriptions with decision points, QC checkpoints, and conditional branches</p>
+            </a>
+            
+            <a href="data_flow.html" class="nav-card">
+                <div class="nav-card-icon">🔄</div>
+                <h2>Data Flow</h2>
+                <p>Visual diagrams showing how data moves through the pipeline, including cache and reuse logic</p>
+            </a>
+            
+            <a href="flowcharts.html" class="nav-card">
+                <div class="nav-card-icon">📊</div>
+                <h2>Visual Flowcharts</h2>
+                <p>Interactive Mermaid diagrams color-coded by workflow type with high-level and detailed views</p>
+            </a>
+            
+            <a href="module_reference.html" class="nav-card">
+                <div class="nav-card-icon">📖</div>
+                <h2>Module Reference</h2>
+                <p>Complete documentation of each process with parameters, dependencies, and containers</p>
+            </a>
+        </div>
+        
+        <!-- Pipeline Statistics -->
+        <div class="overview-section">
+            <h2>Pipeline Statistics</h2>
+            <div class="pipeline-stats">
+                <div class="stat-box">
+                    <span class="stat-number">14</span>
+                    <span class="stat-label">Workflows</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Modules/Processes</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">9</span>
+                    <span class="stat-label">Analysis Types</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">QC Stages</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Overview -->
+        <div class="overview-section">
+            <h2>Pipeline Overview</h2>
+            <p>
+                This Nextflow pipeline provides comprehensive genomic analysis for <em>Neisseria gonorrhoeae</em> 
+                outbreak investigation and surveillance. It processes raw sequencing reads through quality control, 
+                assembly, variant calling, phylogenetic analysis, and antimicrobial resistance (AMR) profiling to 
+                generate actionable clinical insights.
+            </p>
+            
+            <h3>Key Capabilities</h3>
+            <ul class="feature-list">
+                <li><strong>Multi-stage Quality Control:</strong> FastP-based read QC, coverage analysis, and comprehensive filtering</li>
+                <li><strong>Intelligent Caching:</strong> Reuse Snippy outputs with smart exclusion for downsampled samples</li>
+                <li><strong>Phylogenetic Analysis:</strong> RAxML-NG trees with recombination detection via Gubbins</li>
+                <li><strong>Outbreak Detection:</strong> SNP-based clustering to identify transmission chains</li>
+                <li><strong>Comprehensive AMR Profiling:</strong> Chromosomal mutations and HGT gene detection</li>
+                <li><strong>Clinical Interpretation:</strong> Automated treatment recommendations and priority alerts</li>
+                <li><strong>MLST/cgMLST Typing:</strong> Strain characterization with clustering analysis</li>
+                <li><strong>Flexible Workflows:</strong> Modular design with optional analysis components</li>
+            </ul>
+            
+            <h3>Main Workflows</h3>
+            <div class="workflow-grid">
+                <div class="workflow-item">
+                    <strong>Reads QC</strong>
+                    FastP-based quality filtering and trimming
+                </div>
+                <div class="workflow-item">
+                    <strong>Assembly QC</strong>
+                    Coverage, species, and assembly quality checks
+                </div>
+                <div class="workflow-item">
+                    <strong>Assembly</strong>
+                    SPAdes assembly with statistics generation
+                </div>
+                <div class="workflow-item">
+                    <strong>Variant Calling</strong>
+                    Snippy with caching, core alignment, and Gubbins
+                </div>
+                <div class="workflow-item">
+                    <strong>Phylogeny</strong>
+                    RAxML-NG phylogenetic tree construction
+                </div>
+                <div class="workflow-item">
+                    <strong>Outbreak Detection</strong>
+                    SNP distance-based cluster identification
+                </div>
+                <div class="workflow-item">
+                    <strong>Recombination</strong>
+                    Functional annotation of recombinant regions
+                </div>
+                <div class="workflow-item">
+                    <strong>MLST</strong>
+                    Multi-locus sequence typing and clustering
+                </div>
+                <div class="workflow-item">
+                    <strong>AMR Profiler</strong>
+                    Chromosomal and HGT resistance detection
+                </div>
+                <div class="workflow-item">
+                    <strong>AMR Typing</strong>
+                    NG-MAST/NG-STAR strain typing
+                </div>
+                <div class="workflow-item">
+                    <strong>Clinical</strong>
+                    Treatment recommendations and priority classification
+                </div>
+                <div class="workflow-item">
+                    <strong>Downsampling</strong>
+                    Optional read depth normalization
+                </div>
+                <div class="workflow-item">
+                    <strong>Final QC</strong>
+                    Post-assembly comprehensive quality filtering
+                </div>
+                <div class="workflow-item">
+                    <strong>Reports</strong>
+                    Comprehensive manifest generation
+                </div>
+            </div>
+            
+            <h3>Pipeline Architecture</h3>
+            <p>
+                The pipeline is organized into <strong>14 main workflows</strong> and <strong>2 subworkflows</strong> 
+                that orchestrate over <strong>50 specialized processes</strong>. Each workflow is designed to be modular 
+                and can be enabled/disabled via command-line parameters, allowing flexible execution based on analysis needs.
+            </p>
+            
+            <h3>Quality Control Strategy</h3>
+            <p>The pipeline implements a three-stage QC approach:</p>
+            <ul class="feature-list">
+                <li><strong>QC1 (Reads QC):</strong> FastP-based filtering of raw reads for quality and adapter removal</li>
+                <li><strong>QC2 (Assembly QC):</strong> Coverage, species verification, and assembly metrics filtering</li>
+                <li><strong>Final QC:</strong> Post-analysis validation ensuring data quality throughout</li>
+            </ul>
+            
+            <h3>Caching and Performance</h3>
+            <p>
+                The pipeline implements intelligent caching for computationally expensive operations, particularly 
+                Snippy variant calling. It supports three separate cache directories:
+            </p>
+            <ul class="feature-list">
+                <li><strong>Core Genome Cache:</strong> Snippy outputs for phylogenetic analysis</li>
+                <li><strong>AMR Chromosomal Cache:</strong> Variant calls for chromosomal resistance mutations</li>
+                <li><strong>AMR HGT Cache:</strong> Coverage analysis for horizontally transferred resistance genes</li>
+            </ul>
+            <p>
+                Smart cache filtering ensures downsampled samples are re-analyzed while leveraging existing results 
+                for unchanged samples.
+            </p>
+            
+            <h3>Technology Stack</h3>
+            <p>Built with:</p>
+            <ul class="feature-list">
+                <li><strong>Nextflow DSL2:</strong> Workflow orchestration with modern syntax</li>
+                <li><strong>Docker Containers:</strong> Reproducible bioinformatics tool environments</li>
+                <li><strong>Python Scripts:</strong> Custom data processing and clinical interpretation</li>
+                <li><strong>Shell Scripts:</strong> Utility functions and data manipulation</li>
+            </ul>
+        </div>
+        
+        <!-- Getting Started -->
+        <div class="overview-section">
+            <h2>Quick Start</h2>
+            <h3>Basic Usage</h3>
+            <p>Run the complete pipeline with:</p>
+            <code>nextflow run main.nf --background_dir /path/to/background --live_samples_dir /path/to/samples</code>
+            
+            <h3>Enable Specific Analyses</h3>
+            <code>nextflow run main.nf --background_dir /path/to/background --live_samples_dir /path/to/samples \
+  --enable_detailed_phylogeny \
+  --enable_outbreak_analysis \
+  --enable_amr_analysis \
+  --enable_mlst_analysis</code>
+            
+            <h3>With Caching</h3>
+            <code>nextflow run main.nf --background_dir /path/to/background --live_samples_dir /path/to/samples \
+  --snippy_cache_dir /path/to/cache \
+  --amr_snippy_cache_dir /path/to/amr_cache</code>
+            
+            <p style="margin-top: 1.5rem;">
+                For detailed documentation on each workflow, process, and parameter, use the navigation cards above 
+                or explore the <a href="module_reference.html" style="color: #667eea; text-decoration: none; font-weight: bold;">Module Reference</a>.
+            </p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Copyright © 2025 I Graviton, LLC. All rights reserved.</p>
+        <p>Pipeline Documentation Generated: 2025-10-22</p>
+    </div>
+</body>
+</html>

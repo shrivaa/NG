@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Flowcharts - Pipeline Documentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            opacity: 1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .flowchart-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .flowchart-section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .flowchart-section h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .mermaid {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .legend {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        
+        .legend h4 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            margin-right: 0.75rem;
+        }
+        
+        .note {
+            background: #e8eaf6;
+            border-left: 4px solid #3f51b5;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Overview</a>
+            <h1>📊 Visual Flowcharts</h1>
+            <p>Interactive Mermaid diagrams showing pipeline execution flow</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- High-Level Overview -->
+        <div class="flowchart-section">
+            <h2>High-Level Pipeline Overview</h2>
+            <p>Complete pipeline execution from sample input to final reports</p>
+            
+            <div class="mermaid">
+graph TB
+    Start([Pipeline Start]) --> Discovery[Sample Discovery]
+    Discovery --> DownsampleDec{Downsampling<br/>Enabled?}
+    
+    DownsampleDec -->|Yes| Downsample[Downsampling Workflow]
+    DownsampleDec -->|No| SpeciesDec
+    Downsample --> SpeciesDec{Species Check<br/>Required?}
+    
+    SpeciesDec -->|Yes| Species[MASH Species ID]
+    SpeciesDec -->|No| QC1
+    Species --> QC1[QC1: Reads Quality<br/>FastP]
+    
+    QC1 --> QC1Filter{QC Filtering<br/>Enabled?}
+    QC1Filter -->|Yes| QC1Pass[Filter QC1-Passed]
+    QC1Filter -->|No| Assembly
+    QC1Pass --> Assembly[Assembly Workflow]
+    
+    Assembly --> QC2Dec{Comprehensive<br/>QC Enabled?}
+    QC2Dec -->|Yes| QC2[QC2: Assembly Quality]
+    QC2Dec -->|No| Typing
+    QC2 --> QC2Pass[Filter QC2-Passed]
+    QC2Pass --> Typing
+    
+    Typing[Typing & AMR Workflows] --> VarCallDec{Phylogeny or<br/>Outbreak Enabled?}
+    
+    VarCallDec -->|Yes| VarCall[Variant Calling Workflow]
+    VarCallDec -->|No| Reports
+    
+    VarCall --> PhyloDec{Phylogeny<br/>Enabled?}
+    PhyloDec -->|Yes| Phylo[Phylogenetic Analysis]
+    PhyloDec -->|No| OutbreakDec
+    Phylo --> OutbreakDec{Outbreak<br/>Analysis?}
+    
+    OutbreakDec -->|Yes| Outbreak[Outbreak Detection]
+    OutbreakDec -->|No| RecombDec
+    Outbreak --> RecombDec{Recombination<br/>Annotation?}
+    
+    RecombDec -->|Yes| Recomb[Recombination Workflow]
+    RecombDec -->|No| Reports
+    Recomb --> Reports[Reports Generation]
+    
+    Reports --> End([Pipeline Complete])
+    
+    style Start fill:#667eea,stroke:#764ba2,stroke-width:3px,color:#fff
+    style End fill:#667eea,stroke:#764ba2,stroke-width:3px,color:#fff
+    style Discovery fill:#4fc3f7,stroke:#0288d1,stroke-width:2px
+    style Species fill:#4fc3f7,stroke:#0288d1,stroke-width:2px
+    style QC1 fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style QC1Pass fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Assembly fill:#ffa726,stroke:#f57c00,stroke-width:2px
+    style QC2 fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style QC2Pass fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Typing fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style VarCall fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style Phylo fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Outbreak fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Recomb fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Reports fill:#78909c,stroke:#455a64,stroke-width:2px
+    style Downsample fill:#4fc3f7,stroke:#0288d1,stroke-width:2px
+            </div>
+            
+            <div class="legend">
+                <h4>Color Legend</h4>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #4fc3f7;"></div>
+                        <span>Sample Processing</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #66bb6a;"></div>
+                        <span>Quality Control</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ffa726;"></div>
+                        <span>Assembly</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ab47bc;"></div>
+                        <span>Typing & AMR</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #ef5350;"></div>
+                        <span>Variant Calling</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #5c6bc0;"></div>
+                        <span>Advanced Analysis</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #78909c;"></div>
+                        <span>Reporting</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- QC Workflow Detail -->
+        <div class="flowchart-section">
+            <h2>Quality Control Workflows</h2>
+            <h3>QC1: Reads Quality Control</h3>
+            
+            <div class="mermaid">
+graph TB
+    Input[Raw Reads] --> FastP[FASTP_QC<br/>Quality Filtering]
+    FastP --> Summary[FASTP_SUMMARY<br/>Collect Metrics]
+    FastP --> Combine[COMBINE_FASTP_REPORTS<br/>Merge Reports]
+    
+    Combine --> Check[FASTP_QC_CHECK<br/>Apply Thresholds]
+    
+    Check --> Thresholds{Check Thresholds:<br/>min_reads_after<br/>min_bases_after<br/>min_bases_before}
+    
+    Thresholds --> Passed[QC1 Passed Samples]
+    Thresholds --> Failed[QC1 Failed Samples]
+    
+    Passed --> FilterDec{QC Filtering<br/>Enabled?}
+    FilterDec -->|Yes| NextStage[Proceed to Assembly]
+    FilterDec -->|No| AllSamples[All Samples<br/>to Assembly]
+    Failed --> Report[Logged in Report]
+    
+    style Input fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style FastP fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Summary fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Combine fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Check fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Passed fill:#a5d6a7,stroke:#66bb6a,stroke-width:2px
+    style Failed fill:#ef9a9a,stroke:#ef5350,stroke-width:2px
+    style NextStage fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+            </div>
+            
+            <h3>QC2: Comprehensive Assembly Quality</h3>
+            
+            <div class="mermaid">
+graph TB
+    Reads[Trimmed Reads] --> SnippyCov[SNIPPY_FOR_FINAL_QC<br/>Calculate Coverage]
+    Assembly[Assemblies] --> FormatAsm[FORMAT_ASSEMBLY_STATS]
+    MASH[MASH Results] --> FormatMash[FORMAT_MASH_FOR_MERGE]
+    
+    SnippyCov --> Merge[INITIAL_MERGE<br/>Combine All QC Data]
+    FormatAsm --> Merge
+    FormatMash --> Merge
+    FastP[FastP Summary] --> Merge
+    
+    Merge --> QCCheck[QC_CHECK<br/>Apply Complex Filters]
+    
+    QCCheck --> Checks{Comprehensive Checks:<br/>• Coverage ≥ 85%<br/>• Species = N. gono<br/>• Assembly Size<br/>• GC Content<br/>• Read Quality}
+    
+    Checks --> Pass[QC2 Passed<br/>Samples]
+    Checks --> Fail[QC2 Failed<br/>Samples]
+    
+    Pass --> DownstreamExpensive[Proceed to:<br/>• Variant Calling<br/>• Phylogeny<br/>• Outbreak Detection]
+    Fail --> ReportsOnly[Included in<br/>Reports Only]
+    
+    style Reads fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style Assembly fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style MASH fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style FastP fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style SnippyCov fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style FormatAsm fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style FormatMash fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Merge fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style QCCheck fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Pass fill:#a5d6a7,stroke:#66bb6a,stroke-width:2px
+    style Fail fill:#ef9a9a,stroke:#ef5350,stroke-width:2px
+    style DownstreamExpensive fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+            </div>
+        </div>
+        
+        <!-- Assembly Workflow -->
+        <div class="flowchart-section">
+            <h2>Assembly Workflow</h2>
+            <p>Smart assembly with loading/assembly logic</p>
+            
+            <div class="mermaid">
+graph TB
+    Start[QC1-Passed Reads] --> SkipDec{Skip<br/>Assembly?}
+    
+    SkipDec -->|Yes + Dir| LoadOnly[LOAD_EXISTING_ASSEMBLIES<br/>Load All from Cache]
+    SkipDec -->|Yes + No Dir| Error[ERROR:<br/>Must Provide<br/>assemblies_dir]
+    SkipDec -->|No| CheckCache{assemblies_dir<br/>Provided?}
+    
+    CheckCache -->|Yes| LoadExist[LOAD_EXISTING_ASSEMBLIES<br/>Check for Cached]
+    CheckCache -->|No| AssembleAll[SPADES_ASSEMBLY<br/>Assemble All Samples]
+    
+    LoadExist --> Split{Split Samples}
+    Split --> Found[Samples with<br/>Cached Assemblies]
+    Split --> Missing[Samples without<br/>Cached Assemblies]
+    
+    Missing --> SpadeMissing[SPADES_MISSING_ASSEMBLIES<br/>Assemble Only Missing]
+    
+    Found --> Merge[Merge:<br/>Cached + Newly Assembled]
+    SpadeMissing --> Merge
+    AssembleAll --> Merge
+    LoadOnly --> Merge
+    
+    Merge --> Stats[CALCULATE_ASSEMBLY_STATS<br/>N50, L50, Length]
+    Stats --> Combine[COMBINE_ASSEMBLY_STATS<br/>Create Summary TSV]
+    
+    Combine --> Tagged[Tagged Assemblies:<br/>• loaded_from_cache<br/>• newly_assembled]
+    
+    Tagged --> Output[To Downstream Analysis]
+    
+    style Start fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style LoadExist fill:#ffa726,stroke:#f57c00,stroke-width:2px
+    style SpadeMissing fill:#ffa726,stroke:#f57c00,stroke-width:2px
+    style AssembleAll fill:#ffa726,stroke:#f57c00,stroke-width:2px
+    style LoadOnly fill:#ffa726,stroke:#f57c00,stroke-width:2px
+    style Stats fill:#78909c,stroke:#455a64,stroke-width:2px
+    style Combine fill:#78909c,stroke:#455a64,stroke-width:2px
+    style Error fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style Output fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+    style Tagged fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+            </div>
+        </div>
+        
+        <!-- Variant Calling Workflow -->
+        <div class="flowchart-section">
+            <h2>Variant Calling Workflow</h2>
+            <p>Intelligent caching with downsampling awareness</p>
+            
+            <div class="mermaid">
+graph TB
+    Input[QC2-Passed Reads] --> CacheDec{Snippy Cache<br/>Directory Exists?}
+    
+    CacheDec -->|No| RunAll[SNIPPY_VARIANT_CALLING<br/>Run for All Samples]
+    CacheDec -->|Yes| DownsampleDec{Downsampling<br/>Enabled?}
+    
+    DownsampleDec -->|Yes| CreateExcl[CREATE_CACHE_EXCLUSION_LIST<br/>Exclude Downsampled Samples]
+    DownsampleDec -->|No| NoExcl[No Exclusions]
+    
+    CreateExcl --> CheckCache[CHECK_EXISTING_SNIPPY<br/>Validate Cache with Exclusions]
+    NoExcl --> CheckCache
+    
+    CheckCache --> SplitSamples{Split by<br/>Cache Status}
+    
+    SplitSamples --> CacheValid[Samples with<br/>Valid Cache]
+    SplitSamples --> CacheMissing[Samples without<br/>Valid Cache]
+    
+    CacheMissing --> RunMissing[SNIPPY_VARIANT_CALLING<br/>Run Only Missing]
+    
+    CacheValid --> Merge[Merge:<br/>Cached + New Snippy Outputs]
+    RunMissing --> Merge
+    RunAll --> Merge
+    
+    Merge --> Core[SNIPPY_CORE<br/>Create Core Alignment]
+    
+    Core --> FilterRef{Exclude Reference<br/>from Phylogeny?}
+    
+    FilterRef -->|Yes| Filter[FILTER_REFERENCE_FROM_ALIGNMENT]
+    FilterRef -->|No| Clean[SNIPPY_CLEAN<br/>Quality Filter Alignment]
+    Filter --> Clean
+    
+    Clean --> Count[COUNT_MONO_NUC<br/>Monomorphic Sites]
+    Clean --> Gubbins[RUN_GUBBINS<br/>Remove Recombination]
+    
+    Gubbins --> Outputs[Outputs:<br/>• Core Alignment<br/>• Gubbins PHYLIP/FASTA<br/>• GFF<br/>• Tree<br/>• Branch Stats]
+    
+    style Input fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style CreateExcl fill:#78909c,stroke:#455a64,stroke-width:2px
+    style CheckCache fill:#78909c,stroke:#455a64,stroke-width:2px
+    style CacheValid fill:#a5d6a7,stroke:#66bb6a,stroke-width:2px
+    style RunMissing fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style RunAll fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style Core fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style Filter fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style Clean fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style Count fill:#78909c,stroke:#455a64,stroke-width:2px
+    style Gubbins fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style Outputs fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+            </div>
+            
+            <div class="note">
+                <strong>Smart Caching:</strong> The pipeline intelligently reuses Snippy results but excludes 
+                downsampled samples from the cache to ensure they are re-analyzed with their new read depth.
+            </div>
+        </div>
+        
+        <!-- AMR Profiler Workflow -->
+        <div class="flowchart-section">
+            <h2>AMR Profiler Workflow</h2>
+            <p>Comprehensive resistance detection via two parallel subworkflows</p>
+            
+            <h3>Complete AMR Pipeline</h3>
+            <div class="mermaid">
+graph TB
+    Reads[QC2-Passed Reads] --> ChromAMR[Chromosomal AMR<br/>Subworkflow]
+    Reads --> HGTAMR[HGT AMR<br/>Subworkflow]
+    
+    Contigs[QC2-Passed Assemblies] --> ChromAMR
+    
+    ChromAMR --> ChromOut[• Mutations TSV<br/>• Alleles TSV<br/>• NG-STAR Results<br/>• Depth Data]
+    HGTAMR --> HGTOut[• HGT Presence TSV<br/>• Coverage Data]
+    
+    ChromOut --> Merge[Merge AMR Data]
+    HGTOut --> Merge
+    
+    Merge --> Clinical[Clinical Interpretation<br/>Workflow<br/>FUTURE]
+    
+    Clinical --> FinalOut[• Treatment Recommendations<br/>• Priority Alerts<br/>• Clinical Reports]
+    
+    style Reads fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style Contigs fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style ChromAMR fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style HGTAMR fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style ChromOut fill:#ce93d8,stroke:#ab47bc,stroke-width:2px
+    style HGTOut fill:#ce93d8,stroke:#ab47bc,stroke-width:2px
+    style Clinical fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px,stroke-dasharray: 5 5
+    style FinalOut fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+            </div>
+            
+            <h3>Chromosomal AMR Subworkflow</h3>
+            <div class="mermaid">
+graph TB
+    Reads[Reads] --> SnippyChr[SNIPPY_CHROMOSOMAL<br/>Variant Calling vs<br/>Chromosomal Reference]
+    
+    SnippyChr --> ParseMut[PARSE_CHROMOSOMAL<br/>Extract Known<br/>Mutations from VCF]
+    
+    ParseMut --> Depth[DEPTH_ANALYSIS<br/>Verify Mutation<br/>Depth ≥ Threshold]
+    
+    Contigs[Assemblies] --> NGMaster[NGMASTER<br/>NG-STAR Typing]
+    Contigs --> BLAST[BLASTN_ALLELES<br/>Identify:<br/>• penA<br/>• porB<br/>• mtrR]
+    
+    Depth --> Enrich[ENRICH_ALLELES<br/>Combine Depth + Alleles]
+    BLAST --> Enrich
+    
+    Enrich --> Output[Outputs:<br/>• Mutations TSV<br/>• Alleles TSV<br/>• NG-STAR TSV]
+    NGMaster --> Output
+    
+    style Reads fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style Contigs fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style SnippyChr fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style ParseMut fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style Depth fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style NGMaster fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style BLAST fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style Enrich fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style Output fill:#ce93d8,stroke:#ab47bc,stroke-width:2px
+            </div>
+            
+            <h3>HGT AMR Subworkflow</h3>
+            <div class="mermaid">
+graph TB
+    Reads[Reads] --> SnippyHGT[SNIPPY_HGT<br/>Map to HGT<br/>Gene References]
+    
+    SnippyHGT --> DetectHGT[DETECT_HGT<br/>Calculate Gene Coverage]
+    
+    DetectHGT --> Threshold{Coverage<br/>≥ Threshold?}
+    
+    Threshold -->|Yes| Present[Gene Present]
+    Threshold -->|No| Absent[Gene Absent]
+    
+    Present --> Output[HGT Presence TSV:<br/>• Gene Name<br/>• Coverage %<br/>• Status]
+    Absent --> Output
+    
+    style Reads fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style SnippyHGT fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style DetectHGT fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style Present fill:#a5d6a7,stroke:#66bb6a,stroke-width:2px
+    style Absent fill:#ffcc80,stroke:#ff9800,stroke-width:2px
+    style Output fill:#ce93d8,stroke:#ab47bc,stroke-width:2px
+            </div>
+        </div>
+        
+        <!-- Advanced Analysis -->
+        <div class="flowchart-section">
+            <h2>Advanced Analysis Workflows</h2>
+            
+            <h3>Phylogenetic Analysis</h3>
+            <div class="mermaid">
+graph TB
+    Gubbins[Gubbins Outputs] --> MinCheck{Sample Count<br/>≥ Minimum?}
+    
+    MinCheck -->|No| Skip[Skip Phylogeny<br/>Too Few Samples]
+    MinCheck -->|Yes| RAxML[PHYLO_ANALYSIS<br/>RAxML-NG Tree<br/>with Bootstrap]
+    
+    RAxML --> TreeViz[TREE_VISUALIZATION<br/>Generate Annotated Plots]
+    RAxML --> Report[PHYLO_REPORT<br/>Statistics & Summary]
+    
+    MLST[MLST Results<br/>Optional] --> TreeViz
+    
+    TreeViz --> Output[Outputs:<br/>• Newick Tree<br/>• PDF/SVG Plots<br/>• Summary Report]
+    Report --> Output
+    
+    style Gubbins fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style MLST fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style RAxML fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style TreeViz fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Report fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Output fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+    style Skip fill:#ffcc80,stroke:#ff9800,stroke-width:2px
+            </div>
+            
+            <h3>Outbreak Detection</h3>
+            <div class="mermaid">
+graph TB
+    Fasta[Gubbins FASTA<br/>Alignment] --> SNPDists[SNPDISTS<br/>Calculate Pairwise<br/>SNP Distances]
+    
+    SNPDists --> Cluster[OUTBREAK_DETECTION<br/>Cluster by SNP Threshold]
+    
+    Cluster --> Threshold{Distance<br/>≤ Threshold?}
+    
+    Threshold -->|Yes| OutbreakCluster[Samples in<br/>Outbreak Cluster]
+    Threshold -->|No| Unrelated[Unrelated Samples]
+    
+    OutbreakCluster --> Report[Cluster Report:<br/>• Cluster IDs<br/>• Member Samples<br/>• SNP Matrix]
+    Unrelated --> Report
+    
+    style Fasta fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style SNPDists fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Cluster fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style OutbreakCluster fill:#ef9a9a,stroke:#ef5350,stroke-width:2px
+    style Unrelated fill:#a5d6a7,stroke:#66bb6a,stroke-width:2px
+    style Report fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+            </div>
+            
+            <h3>Recombination Annotation</h3>
+            <div class="mermaid">
+graph TB
+    GFF[Gubbins GFF<br/>Recombination Regions] --> Extract[Extract Recombinant<br/>Sequences]
+    
+    Alignment[Core Alignment] --> Extract
+    Reference[Reference Genome] --> Extract
+    
+    Extract --> BLAST[RECOMBINATION_ANNOTATION<br/>BLAST vs Database]
+    
+    BLAST --> Annotate[Annotate with:<br/>• Gene Names<br/>• Functions<br/>• Homology]
+    
+    Annotate --> Viz[RECOMBINATION_VISUALIZATION<br/>Generate Plots]
+    
+    Viz --> Output[Outputs:<br/>• Annotated GFF<br/>• Plots<br/>• Summary]
+    
+    style GFF fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style Alignment fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style Reference fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style BLAST fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Annotate fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Viz fill:#5c6bc0,stroke:#3949ab,stroke-width:2px
+    style Output fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; padding: 2rem; color: #666;">
+        <p><a href="index.html" style="color: #667eea; text-decoration: none;">← Back to Overview</a></p>
+        <p>Copyright © 2025 I Graviton, LLC</p>
+    </div>
+</body>
+</html>

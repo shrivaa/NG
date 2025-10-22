@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Flow - Pipeline Documentation</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .back-link { color: white; text-decoration: none; opacity: 0.9; display: inline-block; margin-bottom: 1rem; }
+        .back-link:hover { opacity: 1; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .section h3 {
+            color: #764ba2;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .mermaid {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .data-table th {
+            background: #667eea;
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        
+        .data-table td {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+        }
+        
+        .data-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        .channel-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .channel-box strong {
+            color: #2196f3;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cache-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .cache-box strong {
+            color: #ff9800;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .filter-box {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .filter-box strong {
+            color: #9c27b0;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Overview</a>
+            <h1>🔄 Data Flow Documentation</h1>
+            <p>Sample tracking and data transformation through the pipeline</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Channel Structure -->
+        <div class="section">
+            <h2>Channel Structure and Data Format</h2>
+            <p>Understanding how data flows through Nextflow channels is key to comprehending the pipeline.</p>
+            
+            <h3>Primary Data Channels</h3>
+            
+            <div class="channel-box">
+                <strong>Sample Reads Channel</strong>
+                <p>Format: <code>[sample_id, path(R1), path(R2), sample_type]</code></p>
+                <p>Example: <code>["MIL065", "MIL065_R1.fastq.gz", "MIL065_R2.fastq.gz", "live"]</code></p>
+                <p><strong>Transformations:</strong></p>
+                <ul style="margin-top: 0.5rem;">
+                    <li>DISCOVER_SAMPLES → raw reads channel</li>
+                    <li>DOWNSAMPLING_WORKFLOW → downsampled reads (if enabled)</li>
+                    <li>READS_QC_WORKFLOW → trimmed reads (all) + QC1-passed reads (filtered)</li>
+                </ul>
+            </div>
+            
+            <div class="channel-box">
+                <strong>Assembly Channel</strong>
+                <p>Format: <code>[sample_id, path(contigs.fasta), source]</code></p>
+                <p>Example: <code>["MIL065", "contigs.fasta", "newly_assembled"]</code></p>
+                <p><strong>Source Values:</strong></p>
+                <ul style="margin-top: 0.5rem;">
+                    <li><code>loaded_from_cache</code>: Pre-existing assembly from <code>--assemblies_dir</code></li>
+                    <li><code>newly_assembled</code>: Fresh SPAdes assembly from this run</li>
+                </ul>
+            </div>
+            
+            <div class="channel-box">
+                <strong>Snippy Directory Channel</strong>
+                <p>Format: <code>[sample_id, path(snippy_dir)]</code></p>
+                <p>Example: <code>["MIL065", "/work/snippy/MIL065"]</code></p>
+                <p><strong>Contents:</strong> snps.vcf, snps.bam, snps.bam.bai, snps.tab, consensus.fa, etc.</p>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Channel Name</th>
+                        <th>Format</th>
+                        <th>Created By</th>
+                        <th>Consumed By</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>discovered_samples</code></td>
+                        <td>[sample_id, R1, R2, type]</td>
+                        <td>DISCOVER_SAMPLES</td>
+                        <td>Downsampling or QC1</td>
+                    </tr>
+                    <tr>
+                        <td><code>qc1_passed_reads</code></td>
+                        <td>[sample_id, R1, R2, type]</td>
+                        <td>READS_QC_WORKFLOW</td>
+                        <td>ASSEMBLY_WORKFLOW</td>
+                    </tr>
+                    <tr>
+                        <td><code>assemblies</code></td>
+                        <td>[sample_id, contigs, source]</td>
+                        <td>ASSEMBLY_WORKFLOW</td>
+                        <td>QC2, MLST, AMR, Typing</td>
+                    </tr>
+                    <tr>
+                        <td><code>qc2_passed_samples</code></td>
+                        <td>Set&lt;sample_id&gt;</td>
+                        <td>ASSEMBLY_QC_WORKFLOW</td>
+                        <td>Variant Calling, Phylogeny</td>
+                    </tr>
+                    <tr>
+                        <td><code>snippy_dirs</code></td>
+                        <td>[path(snippy_dir)]</td>
+                        <td>VARIANT_CALLING_WORKFLOW</td>
+                        <td>SNIPPY_CORE</td>
+                    </tr>
+                    <tr>
+                        <td><code>gubbins_alignments</code></td>
+                        <td>path(alignment.fasta/.phy)</td>
+                        <td>RUN_GUBBINS</td>
+                        <td>PHYLOGENY_WORKFLOW</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Sample Tracking -->
+        <div class="section">
+            <h2>Sample Tracking Through Pipeline</h2>
+            <p>How individual samples are tracked and filtered at each stage</p>
+            
+            <h3>Sample Journey Diagram</h3>
+            <div class="mermaid">
+graph LR
+    Input[100 Samples<br/>Discovered] --> QC1{QC1 Filter}
+    QC1 -->|Pass: 95| Assembly[Assembly]
+    QC1 -->|Fail: 5| QC1Report[QC1 Report Only]
+    
+    Assembly --> QC2{QC2 Filter}
+    QC2 -->|Pass: 85| Expensive[Expensive Analyses:<br/>Variant Calling<br/>Phylogeny<br/>Outbreak]
+    QC2 -->|Fail: 10| TypingOnly[Typing & AMR Only]
+    
+    Expensive --> FinalOutputs[Final Reports]
+    TypingOnly --> FinalOutputs
+    QC1Report --> FinalOutputs
+    
+    style Input fill:#4fc3f7,stroke:#0288d1,stroke-width:2px
+    style QC1 fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style QC2 fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Assembly fill:#ffa726,stroke:#f57c00,stroke-width:2px
+    style Expensive fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style TypingOnly fill:#ab47bc,stroke:#7b1fa2,stroke-width:2px
+    style FinalOutputs fill:#78909c,stroke:#455a64,stroke-width:2px
+    style QC1Report fill:#bdbdbd,stroke:#757575,stroke-width:2px
+            </div>
+            
+            <h3>Filtering Impact</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Stage</th>
+                        <th>Filter Applied</th>
+                        <th>Samples Proceeding</th>
+                        <th>Failed Samples Fate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Discovery</strong></td>
+                        <td>None - all FASTQ pairs cataloged</td>
+                        <td>100%</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td><strong>QC1 (FastP)</strong></td>
+                        <td>Reads/bases thresholds</td>
+                        <td>~95% (typical)</td>
+                        <td>Logged in QC1 report, excluded from assembly</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Assembly</strong></td>
+                        <td>None - all QC1-passed assembled</td>
+                        <td>100% of QC1-passed</td>
+                        <td>N/A</td>
+                    </tr>
+                    <tr>
+                        <td><strong>QC2 (Comprehensive)</strong></td>
+                        <td>Coverage, species, assembly metrics</td>
+                        <td>~85-90% (typical)</td>
+                        <td>Included in typing/AMR but excluded from variant calling/phylogeny</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Variant Calling</strong></td>
+                        <td>Snippy internal QC</td>
+                        <td>~99% of QC2-passed</td>
+                        <td>Logged in Snippy Core failed_samples.txt</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="filter-box">
+                <strong>📊 Filtering Philosophy</strong>
+                <p>The pipeline uses a "fail-forward" approach:</p>
+                <ul>
+                    <li>❌ <strong>QC1 Failures:</strong> Too low quality for meaningful analysis - stop here</li>
+                    <li>⚠️ <strong>QC2 Failures:</strong> Assemblies may be usable for typing/AMR but unreliable for phylogeny - continue selectively</li>
+                    <li>📝 <strong>All samples:</strong> Tracked in final manifests for transparency, even if they failed QC</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Caching Logic -->
+        <div class="section">
+            <h2>Caching and Reuse Logic</h2>
+            <p>How the pipeline intelligently reuses previous results</p>
+            
+            <h3>Three-Tier Caching System</h3>
+            
+            <div class="cache-box">
+                <strong>1. Assembly Caching (<code>--assemblies_dir</code>)</strong>
+                <p><strong>Purpose:</strong> Avoid re-assembling unchanged samples</p>
+                <p><strong>Logic:</strong></p>
+                <ul>
+                    <li>Check if <code>{sample_id}/contigs.fasta</code> exists in cache</li>
+                    <li>If found: Load assembly, tag as <code>loaded_from_cache</code></li>
+                    <li>If missing: Run SPAdes, tag as <code>newly_assembled</code></li>
+                </ul>
+                <p><strong>Use Case:</strong> Adding new samples to existing analysis</p>
+            </div>
+            
+            <div class="cache-box">
+                <strong>2. Snippy Core Genome Caching (<code>--snippy_cache_dir</code>)</strong>
+                <p><strong>Purpose:</strong> Reuse variant calling for phylogeny/outbreak analysis</p>
+                <p><strong>Logic:</strong></p>
+                <ul>
+                    <li>Check for <code>{sample_id}/snps.vcf</code>, <code>snps.bam</code>, <code>snps.bam.bai</code></li>
+                    <li>If downsampling enabled: Exclude downsampled samples (force re-run)</li>
+                    <li>If valid cache + not excluded: Use cached Snippy output</li>
+                    <li>Otherwise: Run fresh Snippy variant calling</li>
+                </ul>
+                <p><strong>Smart Exclusion:</strong> CREATE_CACHE_EXCLUSION_LIST identifies samples with changed read depth</p>
+            </div>
+            
+            <div class="cache-box">
+                <strong>3. AMR Snippy Caching (<code>--amr_snippy_cache_dir</code>)</strong>
+                <p><strong>Purpose:</strong> Reuse resistance mutation/gene detection</p>
+                <p><strong>Two Subdirectories:</strong></p>
+                <ul>
+                    <li><code>snippy_chromosomal/</code>: Chromosomal resistance variants</li>
+                    <li><code>snippy_hgt/</code>: HGT gene coverage analysis</li>
+                </ul>
+                <p><strong>Control:</strong> <code>--save_amr_snippy</code> flag to update cache</p>
+            </div>
+            
+            <h3>Cache Validation Flow</h3>
+            <div class="mermaid">
+graph TB
+    Start[Sample Needs Processing] --> CacheExists{Cache<br/>Exists?}
+    
+    CacheExists -->|No| RunNew[Run Fresh Analysis]
+    CacheExists -->|Yes| ValidateFiles{All Required<br/>Files Present?}
+    
+    ValidateFiles -->|No| RunNew
+    ValidateFiles -->|Yes| DownsampleCheck{Downsampling<br/>Enabled?}
+    
+    DownsampleCheck -->|No| UseCache[Use Cached Result]
+    DownsampleCheck -->|Yes| InExclusion{Sample in<br/>Exclusion List?}
+    
+    InExclusion -->|Yes| RunNew
+    InExclusion -->|No| UseCache
+    
+    RunNew --> Output[New Output]
+    UseCache --> Output
+    
+    style Start fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style RunNew fill:#ef5350,stroke:#c62828,stroke-width:2px
+    style UseCache fill:#66bb6a,stroke:#388e3c,stroke-width:2px
+    style Output fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+            </div>
+        </div>
+        
+        <!-- Data Transformations -->
+        <div class="section">
+            <h2>Key Data Transformations</h2>
+            <p>How data is modified as it flows through the pipeline</p>
+            
+            <h3>Read Processing Pipeline</h3>
+            <div class="mermaid">
+graph LR
+    Raw[Raw FASTQ<br/>R1 + R2] --> FastP[FastP Trimming]
+    FastP --> Trimmed[Trimmed FASTQ<br/>Adapters removed<br/>Quality filtered]
+    
+    Trimmed --> Downsample{Downsampling?}
+    Downsample -->|Yes| DS[Downsampled FASTQ<br/>Normalized depth]
+    Downsample -->|No| Assembly
+    DS --> Assembly[SPAdes Assembly]
+    
+    Assembly --> Contigs[Contigs FASTA<br/>De novo assembly]
+    
+    style Raw fill:#ffcdd2,stroke:#ef5350,stroke-width:2px
+    style Trimmed fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+    style DS fill:#c5e1a5,stroke:#9ccc65,stroke-width:2px
+    style Contigs fill:#fff9c4,stroke:#fdd835,stroke-width:2px
+            </div>
+            
+            <h3>Variant Calling Transformations</h3>
+            <div class="mermaid">
+graph TB
+    Reads[Trimmed Reads] --> Snippy[Snippy<br/>Variant Calling]
+    Ref[Reference Genome] --> Snippy
+    
+    Snippy --> VCF[SNPs/Indels<br/>VCF Format]
+    Snippy --> BAM[Read Alignments<br/>BAM + BAI]
+    
+    VCF --> SnippyCore[Snippy Core<br/>Combine All Samples]
+    BAM --> SnippyCore
+    
+    SnippyCore --> CoreAln[Core Genome<br/>Alignment FASTA]
+    
+    CoreAln --> FilterRef[Filter Reference<br/>Optional]
+    FilterRef --> Clean[Snippy Clean<br/>Remove Low Quality]
+    
+    Clean --> Gubbins[Gubbins<br/>Remove Recombination]
+    
+    Gubbins --> RecombFree[Recombination-Free<br/>Alignment<br/>PHYLIP + FASTA]
+    Gubbins --> RecombGFF[Recombination<br/>Regions GFF]
+    Gubbins --> Tree[Initial Tree]
+    
+    style Reads fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style Ref fill:#e3f2fd,stroke:#2196f3,stroke-width:2px
+    style VCF fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style BAM fill:#fff3e0,stroke:#ff9800,stroke-width:2px
+    style CoreAln fill:#f3e5f5,stroke:#9c27b0,stroke-width:2px
+    style RecombFree fill:#c8e6c9,stroke:#66bb6a,stroke-width:2px
+    style RecombGFF fill:#ffe0b2,stroke:#ffb74d,stroke-width:2px
+            </div>
+            
+            <h3>AMR Data Integration</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Data Source</th>
+                        <th>Processing</th>
+                        <th>Output Format</th>
+                        <th>Downstream Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Chromosomal Snippy VCF</td>
+                        <td>PARSE_CHROMOSOMAL → DEPTH_ANALYSIS</td>
+                        <td>mutations.tsv (position, gene, mutation, antibiotic)</td>
+                        <td>Clinical interpretation</td>
+                    </tr>
+                    <tr>
+                        <td>Assembly + BLAST DBs</td>
+                        <td>BLASTN_ALLELES</td>
+                        <td>alleles.tsv (penA, porB, mtrR types)</td>
+                        <td>Clinical interpretation</td>
+                    </tr>
+                    <tr>
+                        <td>Assembly</td>
+                        <td>NGMASTER</td>
+                        <td>ngstar.tsv (7-locus NG-STAR type)</td>
+                        <td>Clinical interpretation</td>
+                    </tr>
+                    <tr>
+                        <td>HGT Snippy BAM</td>
+                        <td>DETECT_HGT</td>
+                        <td>hgt_presence.tsv (gene, coverage, status)</td>
+                        <td>Clinical interpretation</td>
+                    </tr>
+                    <tr>
+                        <td>All AMR Data</td>
+                        <td>CLINICAL_WORKFLOW (future)</td>
+                        <td>treatment_recommendations.tsv, priority_alerts.tsv</td>
+                        <td>Final reports</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- File Outputs -->
+        <div class="section">
+            <h2>Output File Structure</h2>
+            <p>Organization of pipeline outputs in <code>--outdir</code></p>
+            
+            <h3>Directory Tree</h3>
+            <pre style="background: #f4f4f4; padding: 1rem; border-radius: 8px; overflow-x: auto;">
+outbreak_analysis/
+├── fastp/                          # QC1 outputs
+│   ├── {sample_id}_fastp.json
+│   ├── {sample_id}_fastp.html
+│   └── fastp_summary.json
+├── assemblies/                     # Assembly outputs
+│   ├── {sample_id}/
+│   │   ├── contigs.fasta
+│   │   ├── scaffolds.fasta
+│   │   └── assembly_graph.fastg
+│   └── assembly_stats.tsv
+├── assembly_qc/                    # QC2 outputs
+│   ├── qc_passed_samples.tsv
+│   ├── qc_failed_samples.tsv
+│   └── combined_qc_report.tsv
+├── mash/                           # Species identification
+│   ├── {sample_id}_mash.txt
+│   └── mash_summary.tsv
+├── snippy_outputs/                 # Variant calling
+│   ├── {sample_id}/
+│   │   ├── snps.vcf
+│   │   ├── snps.bam
+│   │   └── snps.tab
+│   ├── core.full.aln               # Core alignment
+│   ├── core.clean.aln              # Cleaned alignment
+│   └── failed_samples.txt
+├── gubbins/                        # Recombination
+│   ├── gubbins.filtered_polymorphic_sites.phylip
+│   ├── gubbins.filtered_polymorphic_sites.fasta
+│   ├── gubbins.recombination_predictions.gff
+│   ├── gubbins.final_tree.tre
+│   └── gubbins.per_branch_statistics.csv
+├── phylogeny/                      # Phylogenetic analysis
+│   ├── raxml_tree.newick
+│   ├── tree_visualization.pdf
+│   └── phylogeny_report.txt
+├── outbreak_detection/             # Outbreak clustering
+│   ├── snp_distances.tsv
+│   └── outbreak_clusters.tsv
+├── mlst/                           # MLST typing
+│   ├── {sample_id}_mlst.tsv
+│   └── mlst_summary.tsv
+├── amr_profiler/                   # AMR profiling
+│   ├── chromosomal/
+│   │   ├── {sample_id}_mutations.tsv
+│   │   ├── {sample_id}_alleles.tsv
+│   │   └── {sample_id}_ngstar.tsv
+│   ├── hgt/
+│   │   └── {sample_id}_hgt_presence.tsv
+│   └── clinical_reports/           # Future
+│       └── {sample_id}_treatment.tsv
+├── manifests/                      # Comprehensive reports
+│   ├── pipeline_manifest.tsv       # Master manifest
+│   ├── pipeline_params.json        # Parameters used
+│   └── workflow_manifest_*.json    # Per-workflow tracking
+└── workflow_logs/                  # File tracking
+    ├── file_tracking.json
+    └── process_logs/
+            </pre>
+        </div>
+        
+        <!-- Data Persistence -->
+        <div class="section">
+            <h2>Data Persistence and Provenance</h2>
+            <p>How the pipeline tracks data lineage and enables reproducibility</p>
+            
+            <h3>File Logging System</h3>
+            <p>The pipeline includes comprehensive file logging using <code>params.logProcessFiles()</code> calls throughout workflows:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Logged Information</th>
+                        <th>Purpose</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Process Name</td>
+                        <td>Identify which module created output</td>
+                        <td><code>AMR_PROFILER.CHROMOSOMAL_AMR.SNIPPY</code></td>
+                    </tr>
+                    <tr>
+                        <td>Input Files</td>
+                        <td>Track data provenance</td>
+                        <td><code>{R1: 'path/to/R1.fq.gz', R2: 'path/to/R2.fq.gz'}</code></td>
+                    </tr>
+                    <tr>
+                        <td>Output Files</td>
+                        <td>Catalog generated data</td>
+                        <td><code>{mutations_vcf: 'mutations.tsv'}</code></td>
+                    </tr>
+                    <tr>
+                        <td>Source Process</td>
+                        <td>Lineage tracking</td>
+                        <td><code>WORKFLOW_INPUT_READS</code></td>
+                    </tr>
+                    <tr>
+                        <td>Downstream Consumers</td>
+                        <td>Usage tracking</td>
+                        <td><code>['CLINICAL_INTERPRETATION']</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Manifest Generation</h3>
+            <p>Multiple manifest files provide different views of the pipeline execution:</p>
+            
+            <div class="channel-box">
+                <strong>pipeline_manifest.tsv</strong>
+                <p>Per-sample comprehensive data including:</p>
+                <ul>
+                    <li>Sample metadata (ID, type, file paths)</li>
+                    <li>QC metrics (QC1 and QC2 pass/fail status)</li>
+                    <li>Assembly statistics (N50, length, contigs)</li>
+                    <li>MASH species identification</li>
+                    <li>MLST sequence types</li>
+                    <li>AMR profiling results</li>
+                </ul>
+            </div>
+            
+            <div class="channel-box">
+                <strong>workflow_manifest_*.json</strong>
+                <p>Per-workflow execution tracking:</p>
+                <ul>
+                    <li><code>variant_calling_input.json</code>: Input samples and parameters</li>
+                    <li><code>variant_calling_cache_usage.json</code>: Cache hits/misses</li>
+                    <li><code>variant_calling_output.json</code>: Generated files and counts</li>
+                </ul>
+            </div>
+            
+            <div class="channel-box">
+                <strong>pipeline_params.json</strong>
+                <p>Complete record of all parameters used in the run for reproducibility</p>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; padding: 2rem; color: #666;">
+        <p><a href="index.html" style="color: #667eea; text-decoration: none;">← Back to Overview</a></p>
+        <p>Copyright © 2025 I Graviton, LLC</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Flow - Pipeline Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.9;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+        
+        .back-link:hover {
+            opacity: 1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .toc {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+        }
+        
+        .toc h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .toc ul {
+            list-style: none;
+        }
+        
+        .toc li {
+            padding: 0.5rem 0;
+        }
+        
+        .toc a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .toc a:hover {
+            color: #667eea;
+        }
+        
+        .step-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            flex-grow: 1;
+        }
+        
+        .step-title h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .step-title p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .subsection {
+            margin: 1.5rem 0;
+        }
+        
+        .subsection h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .process-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .process-box strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .decision-point {
+            background: #fff4e6;
+            border-left: 4px solid #ff9800;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .decision-point strong {
+            color: #ff9800;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .qc-checkpoint {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .qc-checkpoint strong {
+            color: #4caf50;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .io-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .input-box, .output-box {
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        
+        .input-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .output-box {
+            background: #f3e5f5;
+            border-left: 4px solid #9c27b0;
+        }
+        
+        .io-box h4 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .io-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .io-box li {
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .note {
+            background: #e8eaf6;
+            border-left: 4px solid #3f51b5;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .note strong {
+            color: #3f51b5;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Overview</a>
+            <h1>📋 Process Flow Documentation</h1>
+            <p>Step-by-step workflow execution with decision points and QC checkpoints</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div style="display: grid; grid-template-columns: 300px 1fr; gap: 2rem;">
+            <div class="toc">
+                <h2>Contents</h2>
+                <ul>
+                    <li><a href="#step1">Step 1: Sample Discovery</a></li>
+                    <li><a href="#step2">Step 2: Optional Downsampling</a></li>
+                    <li><a href="#step3">Step 3: Species Identification</a></li>
+                    <li><a href="#step4">Step 4: Reads Quality Control</a></li>
+                    <li><a href="#step5">Step 5: Assembly</a></li>
+                    <li><a href="#step6">Step 6: Assembly Quality Control</a></li>
+                    <li><a href="#step7">Step 7: Typing & AMR Profiling</a></li>
+                    <li><a href="#step8">Step 8: Variant Calling</a></li>
+                    <li><a href="#step9">Step 9: Advanced Analysis</a></li>
+                    <li><a href="#step10">Step 10: Reports Generation</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <!-- STEP 1 -->
+                <div class="step-section" id="step1">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">
+                            <h2>Sample Discovery</h2>
+                            <p>Identify and catalog all input FASTQ files from background and live sample directories</p>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Process: DISCOVER_SAMPLES</h3>
+                        <p>Scans directories for paired-end FASTQ files and generates sample metadata.</p>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li><code>--background_dir</code>: Directory with background genome FASTQs</li>
+                                    <li><code>--live_samples_dir</code>: Directory with live sample FASTQs</li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>Sample channel: <code>[sample_id, R1, R2, sample_type]</code></li>
+                                    <li>Metadata TSV: Sample catalog with types</li>
+                                    <li>Input manifest: JSON tracking all samples</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="note">
+                            <strong>Note:</strong> Samples from <code>background_dir</code> are labeled as "background", 
+                            while those from <code>live_samples_dir</code> are labeled as "live". This distinction is 
+                            preserved throughout the pipeline.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 2 -->
+                <div class="step-section" id="step2">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">
+                            <h2>Optional Downsampling</h2>
+                            <p>Normalize read depth to target coverage (optional)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="decision-point">
+                        <strong>🔀 Decision Point: Enable Downsampling?</strong>
+                        <p>Controlled by <code>--enable_downsampling</code> flag</p>
+                        <ul>
+                            <li><strong>YES:</strong> Proceed to DOWNSAMPLING_WORKFLOW</li>
+                            <li><strong>NO:</strong> Skip to Step 3 (Species Identification)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Workflow: DOWNSAMPLING_WORKFLOW</h3>
+                        
+                        <div class="process-box">
+                            <strong>LOAD_DOWNSAMPLED_READS</strong>
+                            <p>Check for existing downsampled reads in cache directory (<code>--downsampled_reads_cache_dir</code>)</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>DOWNSAMPLE_READS</strong>
+                            <p>Use <code>seqtk sample</code> to downsample reads to target coverage (default: 40x)</p>
+                            <ul>
+                                <li>Calculates subsampling fraction based on genome size (default: 2.2 Mb)</li>
+                                <li>Only downsamples samples not found in cache</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>DOWNSAMPLE_SUMMARY</strong>
+                            <p>Generates summary of downsampling operations and creates status list for cache filtering</p>
+                        </div>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Assembly Decision Point</strong>
+                            <p>Controlled by <code>--reassemble_downsampled</code> parameter:</p>
+                            <ul>
+                                <li><strong>none:</strong> Use existing assemblies</li>
+                                <li><strong>newly:</strong> Re-assemble only newly downsampled samples</li>
+                                <li><strong>all:</strong> Re-assemble all samples with downsampled reads</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li>Original reads from DISCOVER_SAMPLES</li>
+                                    <li><code>--target_coverage</code>: Target depth (default: 40x)</li>
+                                    <li><code>--genome_size</code>: Expected genome size (default: 2.2M)</li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>Downsampled reads: <code>[sample_id, R1_ds, R2_ds, sample_type]</code></li>
+                                    <li>Downsampling status list: For cache filtering</li>
+                                    <li>Summary report: Downsampling statistics</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 3 -->
+                <div class="step-section" id="step3">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">
+                            <h2>Species Identification</h2>
+                            <p>MASH-based taxonomic identification to confirm N. gonorrhoeae</p>
+                        </div>
+                    </div>
+                    
+                    <div class="decision-point">
+                        <strong>🔀 Decision Point: Species Check Required?</strong>
+                        <p>Multiple conditions control this step:</p>
+                        <ul>
+                            <li><code>--skip_species_check</code>: Skip for all samples</li>
+                            <li><code>--trust_background</code>: Skip only for background samples</li>
+                            <li>MASH database required: <code>--mash_db</code></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Process: MASH_SPECIES_IDENTIFICATION</h3>
+                        
+                        <div class="process-box">
+                            <strong>MASH Screen</strong>
+                            <p>Compare reads against Neisseria database to identify species</p>
+                            <ul>
+                                <li>Uses winner-take-all approach for species identification</li>
+                                <li>Generates per-sample MASH results</li>
+                                <li>Creates summary TSV with all identifications</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="qc-checkpoint">
+                            <strong>✓ QC Checkpoint: Species Verification</strong>
+                            <p>Flags samples that are not identified as <em>Neisseria gonorrhoeae</em> (default: <code>--qc2_required_species</code>)</p>
+                            <p>These samples may be filtered in downstream QC2 step if enabled</p>
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li>Reads (downsampled if enabled, otherwise original)</li>
+                                    <li><code>--mash_db</code>: MASH database file (.msh)</li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>Per-sample MASH results</li>
+                                    <li>MASH summary TSV: All species identifications</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 4 -->
+                <div class="step-section" id="step4">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">
+                            <h2>Reads Quality Control (QC1)</h2>
+                            <p>FastP-based read quality filtering and adapter trimming</p>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Workflow: READS_QC_WORKFLOW</h3>
+                        <p>Implements QC1 filtering based on read metrics from FastP</p>
+                        
+                        <div class="process-box">
+                            <strong>FASTP_QC</strong>
+                            <p>Run FastP on all samples for quality filtering and adapter trimming</p>
+                            <ul>
+                                <li>Auto-detects adapters</li>
+                                <li>Performs quality filtering</li>
+                                <li>Generates JSON reports with detailed metrics</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>FASTP_SUMMARY</strong>
+                            <p>Combine all FastP JSON reports into summary</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>COMBINE_FASTP_REPORTS</strong>
+                            <p>Merge FastP reports for QC threshold checking</p>
+                        </div>
+                        
+                        <div class="qc-checkpoint">
+                            <strong>✓ QC Checkpoint: FASTP_QC_CHECK (QC1)</strong>
+                            <p>Apply thresholds to filter samples based on FastP metrics:</p>
+                            <ul>
+                                <li><code>--qc_min_reads_after</code>: Minimum reads after filtering (default: 352,000)</li>
+                                <li><code>--qc_min_bases_after</code>: Minimum bases after filtering (default: 88,000)</li>
+                                <li><code>--qc_min_bases_before</code>: Minimum bases before filtering (default: 22,418,200)</li>
+                            </ul>
+                            <p><strong>Output:</strong> Two TSV files listing passed and failed samples</p>
+                        </div>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Decision Point: Enable QC Filtering?</strong>
+                            <p>Controlled by <code>--enable_qc_filtering</code> (default: true)</p>
+                            <ul>
+                                <li><strong>YES:</strong> Only QC1-passed samples proceed to assembly</li>
+                                <li><strong>NO:</strong> All samples proceed regardless of QC1 results</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li>Reads: <code>[sample_id, R1, R2, sample_type]</code></li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>Trimmed reads (all samples)</li>
+                                    <li>QC1-passed reads (filtered subset)</li>
+                                    <li>FastP summary JSON</li>
+                                    <li>QC1 passed/failed sample lists (TSV)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 5 -->
+                <div class="step-section" id="step5">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">
+                            <h2>Assembly</h2>
+                            <p>Genome assembly using SPAdes with smart assembly/loading logic</p>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Workflow: ASSEMBLY_WORKFLOW</h3>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Decision Point: Skip Assembly?</strong>
+                            <p>Controlled by <code>--skip_assembly</code> and <code>--assemblies_dir</code></p>
+                            <ul>
+                                <li><strong>Skip=YES + Dir Provided:</strong> Load all from <code>--assemblies_dir</code></li>
+                                <li><strong>Skip=YES + No Dir:</strong> ERROR - must provide assemblies_dir</li>
+                                <li><strong>Skip=NO:</strong> Proceed with assembly logic below</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>LOAD_EXISTING_ASSEMBLIES</strong>
+                            <p>Check <code>--assemblies_dir</code> for existing assemblies</p>
+                            <ul>
+                                <li>Looks for <code>{sample_id}/contigs.fasta</code></li>
+                                <li>Returns list of found assemblies</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>SPADES_MISSING_ASSEMBLIES</strong>
+                            <p>Run SPAdes assembly only for samples without existing assemblies</p>
+                            <ul>
+                                <li>Uses <code>--isolate</code> mode</li>
+                                <li>Generates contigs, scaffolds, and graph files</li>
+                                <li>Creates assembly stats</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>CALCULATE_ASSEMBLY_STATS</strong>
+                            <p>Calculate N50, L50, total length for all assemblies</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>COMBINE_ASSEMBLY_STATS</strong>
+                            <p>Merge all assembly statistics into single TSV</p>
+                        </div>
+                        
+                        <div class="note">
+                            <strong>Assembly Source Tracking:</strong> Each assembly is tagged with its source:
+                            <ul>
+                                <li><code>loaded_from_cache</code>: Existing assembly from <code>--assemblies_dir</code></li>
+                                <li><code>newly_assembled</code>: Fresh SPAdes assembly</li>
+                            </ul>
+                            This tracking enables smart downstream processing and caching decisions.
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li>Trimmed reads from QC1</li>
+                                    <li><code>--assemblies_dir</code>: Optional assembly cache</li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>Assemblies: <code>[sample_id, contigs.fasta, source]</code></li>
+                                    <li>Assembly stats TSV: N50, L50, lengths</li>
+                                    <li>Assembly summary JSON</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 6 -->
+                <div class="step-section" id="step6">
+                    <div class="step-header">
+                        <div class="step-number">6</div>
+                        <div class="step-title">
+                            <h2>Assembly Quality Control (QC2)</h2>
+                            <p>Comprehensive quality filtering based on coverage, species, and assembly metrics</p>
+                        </div>
+                    </div>
+                    
+                    <div class="decision-point">
+                        <strong>🔀 Decision Point: Enable Comprehensive QC?</strong>
+                        <p>Controlled by <code>--enable_comprehensive_qc</code> (default: false)</p>
+                        <ul>
+                            <li><strong>YES:</strong> Run ASSEMBLY_QC_WORKFLOW and apply filters</li>
+                            <li><strong>NO:</strong> Skip QC2, all samples proceed</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Workflow: ASSEMBLY_QC_WORKFLOW</h3>
+                        <p>Multi-faceted quality assessment combining coverage, species ID, and assembly metrics</p>
+                        
+                        <div class="process-box">
+                            <strong>SNIPPY_FOR_FINAL_QC</strong>
+                            <p>Run Snippy against reference genome (FA19) to calculate coverage</p>
+                            <ul>
+                                <li>Maps trimmed reads to reference</li>
+                                <li>Generates BAM file for depth calculation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>FORMAT_ASSEMBLY_STATS</strong>
+                            <p>Reformat assembly stats for merging with QC data</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>FORMAT_MASH_FOR_MERGE</strong>
+                            <p>Reformat MASH species results for merging</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>INITIAL_MERGE</strong>
+                            <p>Combine FastP, assembly stats, and MASH data into unified TSV</p>
+                        </div>
+                        
+                        <div class="qc-checkpoint">
+                            <strong>✓ QC Checkpoint: QC_CHECK (QC2)</strong>
+                            <p>Apply comprehensive thresholds using AWK script to filter samples:</p>
+                            <ul>
+                                <li><strong>Coverage:</strong> <code>--qc2_min_coverage</code> (default: 85%)</li>
+                                <li><strong>Species:</strong> <code>--qc2_required_species</code> (default: Neisseria_gonorrhoeae)</li>
+                                <li><strong>Assembly Size:</strong> 
+                                    <ul>
+                                        <li><code>--qc2_min_assembly_size</code> (default: 1,850,000 bp)</li>
+                                        <li><code>--qc2_max_assembly_size</code> (default: 2,500,000 bp)</li>
+                                        <li><code>--qc2_max_assembly_size_range</code> (default: 2,100,000 bp)</li>
+                                    </ul>
+                                </li>
+                                <li><strong>GC Content:</strong> <code>--qc2_min_gc_content</code> (default: 0.10)</li>
+                                <li><strong>Read Quality:</strong> 
+                                    <ul>
+                                        <li><code>--qc2_min_read_quality</code> (default: 11)</li>
+                                        <li><code>--qc2_min_read_quality_strict</code> (default: 15, when GC < threshold)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <p><strong>Complex Logic:</strong> Assembly size thresholds are dynamically adjusted based on GC content</p>
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li>Trimmed reads</li>
+                                    <li>Assemblies</li>
+                                    <li>FastP summary</li>
+                                    <li>MASH summary (if available)</li>
+                                    <li>Assembly stats</li>
+                                    <li>Reference genome for coverage</li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>QC2-passed samples list (Set)</li>
+                                    <li>QC2-failed samples list (Set)</li>
+                                    <li>Combined QC report (TSV)</li>
+                                    <li>Coverage data per sample</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="note">
+                            <strong>Pipeline Filtering:</strong> Samples that fail QC2 are excluded from expensive downstream 
+                            analyses (variant calling, phylogeny, outbreak detection) but their assemblies and QC data are 
+                            still included in final reports for transparency.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 7 -->
+                <div class="step-section" id="step7">
+                    <div class="step-header">
+                        <div class="step-number">7</div>
+                        <div class="step-title">
+                            <h2>Typing & AMR Profiling</h2>
+                            <p>Molecular typing and comprehensive antimicrobial resistance detection</p>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>A. MLST Analysis</h3>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Decision Point: Enable MLST?</strong>
+                            <p>Controlled by <code>--enable_mlst_analysis</code></p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>MLST_WORKFLOW</strong>
+                            <p>Multi-locus sequence typing using mlst tool or PubMLST REST API</p>
+                            <ul>
+                                <li>Identifies sequence types (ST) based on 7 housekeeping genes</li>
+                                <li>Supports hybrid mode (local + REST API) or local-only</li>
+                                <li>Generates tree annotation for phylogeny visualization</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>MLST_CLUSTERING (optional)</strong>
+                            <p>Cluster samples by ST using hierBAPs or similar</p>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>B. AMR Typing (NG-MAST/NG-STAR)</h3>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Decision Point: Enable AMR Typing?</strong>
+                            <p>Controlled by <code>--enable_amr_analysis</code></p>
+                            <p>Requires <code>--ngmaster_db</code> database directory</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>AMR_TYPING_WORKFLOW</strong>
+                            <p>NG-MAST and NG-STAR typing for strain characterization</p>
+                            <ul>
+                                <li>NG-MAST: Uses porB and tbpB alleles</li>
+                                <li>NG-STAR: 7-locus typing scheme</li>
+                                <li>Clustering analysis of typing results</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>C. AMR Profiler Workflow</h3>
+                        <p><strong>Always Enabled</strong> - Comprehensive resistance detection via two subworkflows:</p>
+                        
+                        <div class="process-box">
+                            <strong>Subworkflow: CHROMOSOMAL_AMR</strong>
+                            <p>Detect chromosomal resistance mutations</p>
+                            <ul>
+                                <li><strong>SNIPPY_CHROMOSOMAL:</strong> Variant calling against chromosomal reference</li>
+                                <li><strong>PARSE_CHROMOSOMAL:</strong> Extract known resistance mutations from VCF</li>
+                                <li><strong>DEPTH_ANALYSIS:</strong> Verify mutation depth meets quality thresholds</li>
+                                <li><strong>NGMASTER:</strong> NG-STAR typing from assembly</li>
+                                <li><strong>BLASTN_ALLELES:</strong> Identify penA, porB, mtrR alleles</li>
+                                <li><strong>ENRICH_ALLELES:</strong> Combine depth and allele data</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>Subworkflow: HGT_AMR</strong>
+                            <p>Detect horizontally transferred resistance genes</p>
+                            <ul>
+                                <li><strong>SNIPPY_HGT:</strong> Variant calling against HGT gene reference</li>
+                                <li><strong>DETECT_HGT:</strong> Calculate coverage for each HGT gene</li>
+                                <li>Presence/absence determination based on coverage thresholds</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="note">
+                            <strong>AMR Caching:</strong> The pipeline supports separate caching for:
+                            <ul>
+                                <li><code>--amr_snippy_cache_dir</code>: Chromosomal variant calls</li>
+                                <li><code>--amr_snippy_hgt_dir</code>: HGT gene coverage analysis</li>
+                            </ul>
+                            Cached results are reused unless <code>--save_amr_snippy</code> is enabled to update the cache.
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li>Trimmed reads (QC1-passed)</li>
+                                    <li>Assemblies (QC2-passed)</li>
+                                    <li>Reference genomes (chromosomal + HGT)</li>
+                                    <li>Mutation/gene databases</li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>Chromosomal mutations TSV</li>
+                                    <li>HGT gene presence TSV</li>
+                                    <li>Allele identification results</li>
+                                    <li>NG-STAR typing results</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>D. Clinical Interpretation Workflow</h3>
+                        <p><strong>Future Implementation</strong> - Currently commented out in code</p>
+                        <p>Will combine all AMR detection outputs to generate:</p>
+                        <ul>
+                            <li>Treatment recommendations</li>
+                            <li>Priority alerts for high-risk profiles</li>
+                            <li>Clinical reports with actionable insights</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- STEP 8 -->
+                <div class="step-section" id="step8">
+                    <div class="step-header">
+                        <div class="step-number">8</div>
+                        <div class="step-title">
+                            <h2>Variant Calling Workflow</h2>
+                            <p>Core genome SNP detection with intelligent caching and recombination removal</p>
+                        </div>
+                    </div>
+                    
+                    <div class="decision-point">
+                        <strong>🔀 Decision Point: Run Variant Calling?</strong>
+                        <p>Required for phylogeny, outbreak detection, or recombination analysis</p>
+                        <p>Controlled by: <code>--enable_detailed_phylogeny</code> OR <code>--enable_outbreak_analysis</code></p>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Workflow: VARIANT_CALLING_WORKFLOW</h3>
+                        
+                        <div class="process-box">
+                            <strong>CHECK_EXISTING_SNIPPY</strong>
+                            <p>Check <code>--snippy_cache_dir</code> for existing Snippy outputs</p>
+                            <ul>
+                                <li>If downsampling enabled: Creates exclusion list for downsampled samples</li>
+                                <li>Validates cache integrity (snps.vcf, snps.bam, snps.bam.bai)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Cache Decision: Use Cached Results?</strong>
+                            <ul>
+                                <li><strong>Cache Valid + Not Excluded:</strong> Use cached Snippy output</li>
+                                <li><strong>Cache Invalid OR Excluded:</strong> Run fresh Snippy variant calling</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>SNIPPY_VARIANT_CALLING</strong>
+                            <p>Run Snippy for samples without valid cache</p>
+                            <ul>
+                                <li>Maps reads to reference genome</li>
+                                <li>Calls SNPs and indels</li>
+                                <li>Generates VCF, BAM, and summary files</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>SNIPPY_CORE</strong>
+                            <p>Create core genome alignment from all Snippy directories</p>
+                            <ul>
+                                <li>Combines SNPs from all samples</li>
+                                <li>Generates multi-sample FASTA alignment</li>
+                                <li>Logs samples that failed Snippy</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>FILTER_REFERENCE_FROM_ALIGNMENT</strong>
+                            <p>Optionally remove reference genome from alignment</p>
+                            <p>Controlled by <code>--exclude_reference_from_phylogeny</code> (default: true)</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>SNIPPY_CLEAN</strong>
+                            <p>Remove low-quality positions from core alignment</p>
+                            <ul>
+                                <li>Filters ambiguous bases</li>
+                                <li>Removes sites with excessive missing data</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>COUNT_MONO_NUC</strong>
+                            <p>Count monomorphic nucleotides in cleaned alignment</p>
+                            <p>Used for calculating true SNP distances in phylogeny</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>RUN_GUBBINS</strong>
+                            <p>Identify and remove recombinant regions using Gubbins</p>
+                            <ul>
+                                <li>Iteratively detects recombination</li>
+                                <li>Generates recombination-free alignment (PHYLIP and FASTA)</li>
+                                <li>Produces initial tree and recombination GFF</li>
+                                <li>Calculates branch-specific recombination statistics</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="input-box">
+                                <h4>📥 Inputs</h4>
+                                <ul>
+                                    <li>QC2-passed reads</li>
+                                    <li>Reference genome</li>
+                                    <li>Snippy cache directory (optional)</li>
+                                    <li>Downsampling status list (for cache filtering)</li>
+                                </ul>
+                            </div>
+                            <div class="output-box">
+                                <h4>📤 Outputs</h4>
+                                <ul>
+                                    <li>Core alignment (FASTA)</li>
+                                    <li>Filtered core alignment (reference excluded)</li>
+                                    <li>Clean alignment (quality-filtered)</li>
+                                    <li>Gubbins PHYLIP alignment</li>
+                                    <li>Gubbins FASTA alignment</li>
+                                    <li>Gubbins tree (initial)</li>
+                                    <li>Gubbins GFF (recombination regions)</li>
+                                    <li>Branch statistics</li>
+                                    <li>Monomorphic nucleotide counts</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 9 -->
+                <div class="step-section" id="step9">
+                    <div class="step-header">
+                        <div class="step-number">9</div>
+                        <div class="step-title">
+                            <h2>Advanced Analysis</h2>
+                            <p>Phylogeny, outbreak detection, and recombination annotation (all optional)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>A. Phylogenetic Analysis</h3>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Decision Point: Enable Phylogeny?</strong>
+                            <p>Controlled by <code>--enable_detailed_phylogeny</code></p>
+                            <p>Requires minimum sample count: <code>--min_samples_phylogeny</code> (default: 4)</p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>PHYLOGENY_WORKFLOW</strong>
+                            <p>High-quality phylogenetic tree construction</p>
+                            <ul>
+                                <li><strong>PHYLO_ANALYSIS:</strong> RAxML-NG tree inference with bootstrap support</li>
+                                <li><strong>TREE_VISUALIZATION:</strong> Generate annotated tree plots (PDF/SVG)</li>
+                                <li><strong>PHYLO_REPORT:</strong> Summary statistics and interpretation</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="note">
+                            <strong>Tree Annotation:</strong> If MLST analysis was enabled, sequence types are added to tree labels
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>B. Outbreak Detection</h3>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Decision Point: Enable Outbreak Detection?</strong>
+                            <p>Controlled by <code>--enable_outbreak_analysis</code></p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>OUTBREAK_WORKFLOW</strong>
+                            <p>SNP-based cluster identification</p>
+                            <ul>
+                                <li><strong>SNPDISTS:</strong> Calculate pairwise SNP distances</li>
+                                <li><strong>OUTBREAK_DETECTION:</strong> Cluster samples within SNP threshold</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="qc-checkpoint">
+                            <strong>✓ Clustering Threshold</strong>
+                            <p>Samples within <code>--snp_threshold</code> SNPs (default: 12) are grouped as outbreak clusters</p>
+                        </div>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>C. Recombination Annotation</h3>
+                        
+                        <div class="decision-point">
+                            <strong>🔀 Decision Point: Enable Recombination Annotation?</strong>
+                            <p>Controlled by <code>--enable_recombination_annotation</code></p>
+                            <p>Requires: <code>--enable_detailed_phylogeny</code> AND <code>--blast_database</code></p>
+                        </div>
+                        
+                        <div class="process-box">
+                            <strong>RECOMBINATION_WORKFLOW</strong>
+                            <p>Functional annotation of recombinant regions</p>
+                            <ul>
+                                <li><strong>RECOMBINATION_ANNOTATION:</strong> BLAST recombinant sequences against database</li>
+                                <li><strong>RECOMBINATION_VISUALIZATION:</strong> Generate plots of recombination events</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="note">
+                            <strong>BLAST Type:</strong> Configurable via <code>--recombination_blast_type</code> (blastn or blastx)
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- STEP 10 -->
+                <div class="step-section" id="step10">
+                    <div class="step-header">
+                        <div class="step-number">10</div>
+                        <div class="step-title">
+                            <h2>Reports Generation</h2>
+                            <p>Comprehensive manifest generation tracking all pipeline inputs and outputs</p>
+                        </div>
+                    </div>
+                    
+                    <div class="decision-point">
+                        <strong>🔀 Decision Point: Generate Manifests?</strong>
+                        <p>Controlled by <code>--enable_comprehensive_manifest</code></p>
+                    </div>
+                    
+                    <div class="subsection">
+                        <h3>Workflow: REPORTS_WORKFLOW</h3>
+                        
+                        <div class="process-box">
+                            <strong>GENERATE_COMPREHENSIVE_MANIFEST</strong>
+                            <p>Aggregates all pipeline data into comprehensive manifests</p>
+                            <ul>
+                                <li>Input sample catalog</li>
+                                <li>Assembly statistics</li>
+                                <li>FastP QC metrics</li>
+                                <li>MASH species identification</li>
+                                <li>MLST results</li>
+                                <li>AMR profiling results</li>
+                                <li>Snippy variant calling summaries</li>
+                                <li>Pipeline parameters used</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="io-box">
+                            <div class="output-box">
+                                <h4>📤 Generated Reports</h4>
+                                <ul>
+                                    <li><code>pipeline_manifest.tsv</code>: Per-sample comprehensive data</li>
+                                    <li><code>workflow_manifest_*.json</code>: Per-workflow execution tracking</li>
+                                    <li><code>pipeline_params.json</code>: All parameters used</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div class="note">
+                            <strong>Output Location:</strong> All manifests saved to <code>${params.outdir}/manifests/</code>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Summary -->
+                <div class="step-section">
+                    <h2>Pipeline Execution Summary</h2>
+                    <p>The complete pipeline execution follows this high-level flow:</p>
+                    
+                    <ol style="list-style-position: inside; padding-left: 1rem;">
+                        <li style="margin: 0.5rem 0;"><strong>Discovery & Cataloging:</strong> Identify all input samples</li>
+                        <li style="margin: 0.5rem 0;"><strong>Optional Preprocessing:</strong> Downsample if needed</li>
+                        <li style="margin: 0.5rem 0;"><strong>Species Verification:</strong> MASH identification</li>
+                        <li style="margin: 0.5rem 0;"><strong>QC1 Filtering:</strong> FastP read quality</li>
+                        <li style="margin: 0.5rem 0;"><strong>Assembly:</strong> SPAdes with smart caching</li>
+                        <li style="margin: 0.5rem 0;"><strong>QC2 Filtering:</strong> Comprehensive quality (coverage, species, assembly)</li>
+                        <li style="margin: 0.5rem 0;"><strong>Typing & AMR:</strong> MLST, NG-STAR, resistance profiling</li>
+                        <li style="margin: 0.5rem 0;"><strong>Variant Calling:</strong> Snippy with caching and Gubbins</li>
+                        <li style="margin: 0.5rem 0;"><strong>Advanced Analysis:</strong> Phylogeny, outbreak, recombination</li>
+                        <li style="margin: 0.5rem 0;"><strong>Reporting:</strong> Comprehensive manifests</li>
+                    </ol>
+                    
+                    <div class="qc-checkpoint" style="margin-top: 2rem;">
+                        <strong>✓ Key Quality Gates</strong>
+                        <ul>
+                            <li><strong>QC1:</strong> FastP read quality thresholds</li>
+                            <li><strong>QC2:</strong> Coverage, species, assembly quality</li>
+                            <li><strong>Cache Validation:</strong> Integrity checks for reused results</li>
+                            <li><strong>Snippy QC:</strong> Failed samples excluded from core alignment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; padding: 2rem; color: #666;">
+        <p><a href="index.html" style="color: #667eea; text-decoration: none;">← Back to Overview</a></p>
+        <p>Copyright © 2025 I Graviton, LLC</p>
+    </div>
+</body>
+</html>

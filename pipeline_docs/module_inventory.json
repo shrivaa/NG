@@ -1,0 +1,332 @@
+{
+  "Sample Discovery & QC": [
+    {
+      "filename": "discover_samples.nf",
+      "process_name": "DISCOVER_SAMPLES",
+      "exists": true
+    },
+    {
+      "filename": "mash_species_identification.nf",
+      "process_name": "MASH_SPECIES_IDENTIFICATION",
+      "exists": true
+    }
+  ],
+  "Reads Quality Control": [
+    {
+      "filename": "fastp_qc.nf",
+      "process_name": "FASTP_QC",
+      "exists": true
+    },
+    {
+      "filename": "fastp_summary.nf",
+      "process_name": "FASTP_SUMMARY",
+      "exists": true
+    },
+    {
+      "filename": "combine_fastp_reports.nf",
+      "process_name": "COMBINE_FASTP_REPORTS",
+      "exists": true
+    },
+    {
+      "filename": "fastp_qc_check.nf",
+      "process_name": "FASTP_QC_CHECK",
+      "exists": true
+    }
+  ],
+  "Assembly": [
+    {
+      "filename": "spades_assembly.nf",
+      "process_name": "SPADES_ASSEMBLY",
+      "exists": true
+    },
+    {
+      "filename": "load_existing_assemblies.nf",
+      "process_name": "LOAD_EXISTING_ASSEMBLIES",
+      "exists": true
+    },
+    {
+      "filename": "spades_missing_assemblies.nf",
+      "process_name": "SPADES_MISSING_ASSEMBLIES",
+      "exists": true
+    },
+    {
+      "filename": "calculate_assembly_stats.nf",
+      "process_name": "CALCULATE_ASSEMBLY_STATS",
+      "exists": true
+    },
+    {
+      "filename": "combine_assembly_stats.nf",
+      "process_name": "COMBINE_ASSEMBLY_STATS",
+      "exists": true
+    }
+  ],
+  "Assembly QC": [
+    {
+      "filename": "snippy_for_final_qc.nf",
+      "process_name": "SNIPPY_FOR_FINAL_QC",
+      "exists": true
+    },
+    {
+      "filename": "format_assembly_stats.nf",
+      "process_name": "FORMAT_ASSEMBLY_STATS",
+      "exists": true
+    },
+    {
+      "filename": "format_mash_for_merge.nf",
+      "process_name": "FORMAT_MASH_FOR_MERGE",
+      "exists": true
+    },
+    {
+      "filename": "initial_merge.nf",
+      "process_name": "INITIAL_MERGE",
+      "exists": true
+    },
+    {
+      "filename": "qc_check.nf",
+      "process_name": "QC_CHECK",
+      "exists": true
+    }
+  ],
+  "Downsampling": [
+    {
+      "filename": "downsample_reads.nf",
+      "process_name": "DOWNSAMPLE_READS",
+      "exists": true
+    },
+    {
+      "filename": "load_downsampled_reads.nf",
+      "process_name": "LOAD_DOWNSAMPLED_READS",
+      "exists": true
+    },
+    {
+      "filename": "downsample_summary.nf",
+      "process_name": "DOWNSAMPLE_SUMMARY",
+      "exists": true
+    }
+  ],
+  "Variant Calling": [
+    {
+      "filename": "check_existing_snippy.nf",
+      "process_name": "CHECK_EXISTING_SNIPPY",
+      "exists": true
+    },
+    {
+      "filename": "create_cache_exclusion_list.nf",
+      "process_name": "CREATE_CACHE_EXCLUSION_LIST",
+      "exists": true
+    },
+    {
+      "filename": "snippy_variant_calling.nf",
+      "process_name": "SNIPPY_VARIANT_CALLING",
+      "exists": true
+    },
+    {
+      "filename": "snippy_core.nf",
+      "process_name": "SNIPPY_CORE",
+      "exists": true
+    },
+    {
+      "filename": "filter_reference_from_alignment.nf",
+      "process_name": "FILTER_REFERENCE_FROM_ALIGNMENT",
+      "exists": true
+    },
+    {
+      "filename": "snippy_clean.nf",
+      "process_name": "SNIPPY_CLEAN",
+      "exists": true
+    },
+    {
+      "filename": "count_mono_nuc.nf",
+      "process_name": "COUNT_MONO_NUC",
+      "exists": true
+    },
+    {
+      "filename": "run_gubbins.nf",
+      "process_name": "RUN_GUBBINS",
+      "exists": true
+    }
+  ],
+  "MLST Analysis": [
+    {
+      "filename": "mlst.nf",
+      "process_name": "MLST",
+      "exists": true
+    },
+    {
+      "filename": "mlst_analysis_local.nf",
+      "process_name": "MLST_ANALYSIS_LOCAL",
+      "exists": true
+    },
+    {
+      "filename": "mlst_analysis_hybrid.nf",
+      "process_name": "MLST_ANALYSIS_HYBRID",
+      "exists": true
+    },
+    {
+      "filename": "mlst_clustering.nf",
+      "process_name": "MLST_CLUSTERING",
+      "exists": true
+    }
+  ],
+  "AMR Typing": [
+    {
+      "filename": "ngmaster_typing.nf",
+      "process_name": "NGMASTER_TYPING",
+      "exists": true
+    },
+    {
+      "filename": "ngmaster_clustering.nf",
+      "process_name": "NGMASTER_CLUSTERING",
+      "exists": true
+    }
+  ],
+  "AMR Profiler - Chromosomal": [
+    {
+      "filename": "snippy_chromosomal.nf",
+      "process_name": "SNIPPY_CHROMOSOMAL",
+      "exists": true
+    },
+    {
+      "filename": "load_snippy_chromosomal.nf",
+      "process_name": "LOAD_SNIPPY_CHROMOSOMAL",
+      "exists": true
+    },
+    {
+      "filename": "parse_chromosomal.nf",
+      "process_name": "PARSE_CHROMOSOMAL",
+      "exists": true
+    },
+    {
+      "filename": "depth_analysis.nf",
+      "process_name": "DEPTH_ANALYSIS",
+      "exists": true
+    },
+    {
+      "filename": "ngmaster.nf",
+      "process_name": "NGMASTER",
+      "exists": true
+    },
+    {
+      "filename": "blastn_alleles.nf",
+      "process_name": "BLASTN_ALLELES",
+      "exists": true
+    },
+    {
+      "filename": "enrich_alleles.nf",
+      "process_name": "ENRICH_ALLELES",
+      "exists": true
+    }
+  ],
+  "AMR Profiler - HGT": [
+    {
+      "filename": "snippy_hgt.nf",
+      "process_name": "SNIPPY_HGT",
+      "exists": true
+    },
+    {
+      "filename": "load_snippy_hgt.nf",
+      "process_name": "LOAD_SNIPPY_HGT",
+      "exists": true
+    },
+    {
+      "filename": "detect_hgt.nf",
+      "process_name": "DETECT_HGT",
+      "exists": true
+    },
+    {
+      "filename": "calculate_coverage.nf",
+      "process_name": "CALCULATE_COVERAGE",
+      "exists": true
+    }
+  ],
+  "Clinical Interpretation": [
+    {
+      "filename": "clinical_rules.nf",
+      "process_name": "CLINICAL_RULES",
+      "exists": true
+    },
+    {
+      "filename": "treatment_recommendation.nf",
+      "process_name": "TREATMENT_RECOMMENDATION",
+      "exists": true
+    },
+    {
+      "filename": "priority_classification.nf",
+      "process_name": "PRIORITY_CLASSIFICATION",
+      "exists": true
+    },
+    {
+      "filename": "generate_clinical_report.nf",
+      "process_name": "GENERATE_CLINICAL_REPORT",
+      "exists": true
+    }
+  ],
+  "Phylogenetic Analysis": [
+    {
+      "filename": "phylo_analysis.nf",
+      "process_name": "PHYLO_ANALYSIS",
+      "exists": true
+    },
+    {
+      "filename": "tree_visualization.nf",
+      "process_name": "TREE_VISUALIZATION",
+      "exists": true
+    },
+    {
+      "filename": "phylo_report.nf",
+      "process_name": "PHYLO_REPORT",
+      "exists": true
+    },
+    {
+      "filename": "make_guide.nf",
+      "process_name": "MAKE_GUIDE",
+      "exists": true
+    }
+  ],
+  "Outbreak Detection": [
+    {
+      "filename": "snpdists.nf",
+      "process_name": "SNPDISTS",
+      "exists": true
+    },
+    {
+      "filename": "outbreak_detection.nf",
+      "process_name": "OUTBREAK_DETECTION",
+      "exists": true
+    }
+  ],
+  "Recombination": [
+    {
+      "filename": "recombination_annotation.nf",
+      "process_name": "RECOMBINATION_ANNOTATION",
+      "exists": true
+    },
+    {
+      "filename": "recombination_visualization.nf",
+      "process_name": "RECOMBINATION_VISUALIZATION",
+      "exists": true
+    }
+  ],
+  "Reporting": [
+    {
+      "filename": "generate_report.nf",
+      "process_name": "GENERATE_REPORT",
+      "exists": true
+    },
+    {
+      "filename": "generate_comprehensive_manifest.nf",
+      "process_name": "GENERATE_COMPREHENSIVE_MANIFEST",
+      "exists": true
+    },
+    {
+      "filename": "generate_pipeline_manifest.nf",
+      "process_name": "GENERATE_PIPELINE_MANIFEST",
+      "exists": true
+    },
+    {
+      "filename": "generate_workflow_manifest.nf",
+      "process_name": "GENERATE_WORKFLOW_MANIFEST",
+      "exists": true
+    }
+  ]
+}
