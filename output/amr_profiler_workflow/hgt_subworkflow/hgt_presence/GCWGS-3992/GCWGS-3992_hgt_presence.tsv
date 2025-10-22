@@ -1,0 +1,8 @@
+Sample	Gene	Present	Average_Depth	Status
+GCWGS-3992	blaTEM	False	0.00	Not_detected
+GCWGS-3992	tetM	False	0.00	Not_detected
+GCWGS-3992	ermB	False	0.00	Not_detected
+GCWGS-3992	ermC	True	41.10	Detected
+GCWGS-3992	ermF	False	0.00	Not_detected
+GCWGS-3992	mefA	False	0.00	Not_detected
+GCWGS-3992	Nm_sodC	True	99.71	Detected
